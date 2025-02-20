@@ -1,7 +1,7 @@
-export const tabHead = [
-    { id: 0, name: "Event Name" },
-    { id: 1, name: "Date" },
-    { id: 2, name: "Time" },
-    { id: 2, name: "Venue" },
-    { id: 2, name: "Is Completed" },
-  ];
+export const columns = [
+  { key: "eventname", label: "Event Name" },
+  { key: "date", label: "Date" },
+  { key: "time", label: "Time" },
+  { key: "venue", label: "Venue" },
+  { key: "iscompleted", label: "Status" },
+];

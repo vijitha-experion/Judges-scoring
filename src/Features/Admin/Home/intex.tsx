@@ -1,11 +1,10 @@
 import { ReactElement, useState } from "react";
 
 import { Button } from "@headlessui/react";
-import { tabHead } from "./Utils/tableHead";
-import { tabledata } from "../../data";
+import { columns } from "./Utils/tableHead";
+import { tabledata } from "../../../data";
 import AddEvent from "./components/AddEvent/intex";
-import Example from "./components/DatePicker/intex";
-import { Grid } from "../../components/Grid/intex";
+import { TableGrid } from "../../../components/Grid/intex";
 
 export function Home(): ReactElement {
   let [isOpen, setIsOpen] = useState(false);
@@ -29,7 +28,13 @@ export function Home(): ReactElement {
           Add
         </Button>
       </div>
-      <Grid tabHead={tabHead} tabledata={tabledata} />
+      <TableGrid
+        columns={columns}
+        data={tabledata}
+        currentPage={1}
+        totalPages={3}
+        onPageChange={(page) => console.log("Go to page:", page)}
+      />{" "}
       {isOpen ? <AddEvent isOpen={isOpen} handleClose={handleClose} /> : null}
     </div>
   );

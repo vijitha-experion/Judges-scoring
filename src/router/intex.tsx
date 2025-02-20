@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import { Home } from "../Features/Home/intex";
+import { Home } from "../Features/Admin/Home/intex";
 import { Header } from "../Features/Admin/Header/intex";
 import { JudgesList } from "../Features/Admin/JudgesList/intex";
 import { ParticipantsList } from "../Features/Admin/ParticipantsList/intex";
