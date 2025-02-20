@@ -6,16 +6,17 @@ export type TableColumn = {
 };
 
 export type TableProps = {
-  columns: TableColumn[]; 
-  data: Record<string, any>[]; 
+  columns: TableColumn[];
+  data: Record<string, any>[];
   renderCell?: (
     key: string,
     value: any,
     row: Record<string, any>
-  ) => ReactElement | string; 
+  ) => ReactElement | string;
   currentPage?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
+  onRowClick: any;
 };
 
 export function TableGrid({
@@ -25,6 +26,7 @@ export function TableGrid({
   currentPage = 1,
   totalPages = 1,
   onPageChange,
+  onRowClick,
 }: TableProps): ReactElement {
   return (
     <div className="mt-5 relative flex flex-col w-full h-full text-gray-700 border rounded-md">
@@ -49,10 +51,11 @@ export function TableGrid({
               <tr
                 key={rowIndex}
                 className="hover:bg-slate-50 border-b border-slate-200"
+                onClick={onRowClick}
               >
                 {columns.map((col) => (
                   <td key={col.key} className="p-4 py-5">
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-slate-500 w-40 truncate">
                       {renderCell
                         ? renderCell(col.key, row[col.key], row)
                         : row[col.key]}

@@ -1,14 +1,14 @@
 import { ReactElement, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "@headlessui/react";
-import { columns } from "./Utils/tableHead";
-import { tabledata } from "../../../data";
-import AddEvent from "./components/AddEvent/intex";
-import { TableGrid } from "../../../components/Grid/intex";
+import { TableGrid } from "../../../../../components/Grid/intex";
+import { programList } from "../../../../../data";
+import { programHead } from "../../Utils/table";
 
-export function Home(): ReactElement {
+export function ProgramList(): ReactElement {
   let [isOpen, setIsOpen] = useState(false);
-
+  const navigate = useNavigate();
   function open() {
     setIsOpen(true);
   }
@@ -17,10 +17,14 @@ export function Home(): ReactElement {
     setIsOpen(false);
   }
 
+  function onRowClick() {
+    navigate("/participantsDetails");
+  }
+
   return (
     <div className="pl-14 mr-14">
       <div className="flex justify-between items-center pt-10">
-        <p className="font-semibold text-xl">Event List</p>
+        <p className="font-semibold text-xl">Program List</p>
         <Button
           onClick={open}
           className="bg-indigo-600 py-1 px-5 rounded-md text-white"
@@ -29,13 +33,13 @@ export function Home(): ReactElement {
         </Button>
       </div>
       <TableGrid
-        columns={columns}
-        data={tabledata}
+        columns={programHead}
+        data={programList}
         currentPage={1}
         totalPages={3}
         onPageChange={(page) => console.log("Go to page:", page)}
+        onRowClick={onRowClick}
       />{" "}
-      {isOpen ? <AddEvent isOpen={isOpen} handleClose={handleClose} /> : null}
     </div>
   );
 }
