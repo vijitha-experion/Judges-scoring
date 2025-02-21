@@ -160,3 +160,11 @@ export const participantDetails = [
     position: "Third",
   },
 ];
+
+export const judgesList = [
+  { judgename: "Varun", phone: "8967569065", address: "Skyline, tvm", postion: "Dancer" },
+  { judgename: "Varun", phone: "8967569065", address: "Skyline, tvm", postion: "Dancer" },
+  { judgename: "Varun", phone: "8967569065", address: "Skyline, tvm", postion: "Dancer" },
+  { judgename: "Varun", phone: "8967569065", address: "Skyline, tvm", postion: "Dancer" },
+  { judgename: "Varun", phone: "8967569065", address: "Skyline, tvm", postion: "Dancer" },
+];
