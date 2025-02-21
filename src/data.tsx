@@ -160,3 +160,69 @@ export const participantDetails = [
     position: "Third",
   },
 ];
+
+export const judgesList = [
+  {
+    judgename: "Varun",
+    phone: "8967569065",
+    address: "Skyline, tvm",
+    postion: "Dancer",
+  },
+  {
+    judgename: "Varun",
+    phone: "8967569065",
+    address: "Skyline, tvm",
+    postion: "Dancer",
+  },
+  {
+    judgename: "Varun",
+    phone: "8967569065",
+    address: "Skyline, tvm",
+    postion: "Dancer",
+  },
+  {
+    judgename: "Varun",
+    phone: "8967569065",
+    address: "Skyline, tvm",
+    postion: "Dancer",
+  },
+  {
+    judgename: "Varun",
+    phone: "8967569065",
+    address: "Skyline, tvm",
+    postion: "Dancer",
+  },
+];
+
+export const ParticipantList = [
+  {
+    participant: "Sreekandh",
+    phone: "9987678976",
+    address: "Snehatheeram, tvm",
+    postion: "Student",
+  },
+  {
+    participant: "Sreekandh",
+    phone: "9987678976",
+    address: "Snehatheeram, tvm",
+    postion: "Student",
+  },
+  {
+    participant: "Sreekandh",
+    phone: "9987678976",
+    address: "Snehatheeram, tvm",
+    postion: "Student",
+  },
+  {
+    participant: "Sreekandh",
+    phone: "9987678976",
+    address: "Snehatheeram, tvm",
+    postion: "Student",
+  },
+  {
+    participant: "Sreekandh",
+    phone: "9987678976",
+    address: "Snehatheeram, tvm",
+    postion: "Student",
+  },
+];
