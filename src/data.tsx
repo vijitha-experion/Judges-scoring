@@ -49,3 +49,114 @@ export const tabledata = [
     iscompleted: "yes",
   },
 ];
+
+export const programList = [
+  {
+    programname: "dance",
+    description:
+      "goodaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    judgesname: "seetha",
+    date: "25-10-2025",
+    time: "10:00",
+    iscompleted: "yes",
+  },
+  {
+    programname: "dance",
+    description: "good",
+    judgesname: "seetha",
+    date: "25-10-2025",
+    time: "10:00",
+    iscompleted: "yes",
+  },
+  {
+    programname: "dance",
+    description: "good",
+    judgesname: "seetha",
+    date: "25-10-2025",
+    time: "10:00",
+    iscompleted: "yes",
+  },
+  {
+    programname: "dance",
+    description: "good",
+    judgesname: "seetha",
+    date: "25-10-2025",
+    time: "10:00",
+    iscompleted: "yes",
+  },
+  {
+    programname: "dance",
+    description: "good",
+    judgesname: "seetha",
+    date: "25-10-2025",
+    time: "10:00",
+    iscompleted: "yes",
+  },
+  {
+    programname: "dance",
+    description: "good",
+    judgesname: "seetha",
+    date: "25-10-2025",
+    time: "10:00",
+    iscompleted: "yes",
+  },
+  {
+    programname: "dance",
+    description: "good",
+    judgesname: "seetha",
+    date: "25-10-2025",
+    time: "10:00",
+    iscompleted: "yes",
+  },
+];
+
+export const participantDetails = [
+  {
+    participant: "Seetha",
+    details: "good at this",
+    marks: "85/100",
+    position: "fist",
+  },
+  {
+    participant: "Madhu",
+    details: "average",
+    marks: "65/100",
+    position: "second",
+  },
+  {
+    participant: "Neeli",
+    details: "Third",
+    marks: "55/100",
+    position: "Third",
+  },
+  {
+    participant: "Neeli",
+    details: "Third",
+    marks: "55/100",
+    position: "Third",
+  },
+  {
+    participant: "Neeli",
+    details: "Third",
+    marks: "55/100",
+    position: "Third",
+  },
+  {
+    participant: "Neeli",
+    details: "Third",
+    marks: "55/100",
+    position: "Third",
+  },
+  {
+    participant: "Neeli",
+    details: "Third",
+    marks: "55/100",
+    position: "Third",
+  },
+  {
+    participant: "Neeli",
+    details: "Third",
+    marks: "55/100",
+    position: "Third",
+  },
+];
