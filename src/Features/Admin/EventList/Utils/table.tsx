@@ -3,7 +3,7 @@ export const eventList = [
   { key: "date", label: "Date" },
   { key: "time", label: "Time" },
   { key: "venue", label: "Venue" },
-  { key: "iscompleted", label: "Status" },
+  { key: "iscompleted", label: "Is completed" },
 ];
 
 export const programHead = [
@@ -12,7 +12,7 @@ export const programHead = [
   { key: "judgesname", label: "Judges Name" },
   { key: "date", label: "Date" },
   { key: "time", label: "Time" },
-  { key: "iscompleted", label: "Status" },
+  { key: "iscompleted", label: "Is completed" },
 ];
 
 export const participantDetailsHead = [

@@ -17,9 +17,7 @@ export function ParticipantsDetails(): ReactElement {
     setIsOpen(false);
   }
 
-  function onRowClick() {
-    navigate("");
-  }
+  function onRowClick() {}
   return (
     <div className="pl-14 mr-14">
       <div className="flex justify-between items-center pt-10">

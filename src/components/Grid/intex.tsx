@@ -36,9 +36,9 @@ export function TableGrid({
             {columns.map((col) => (
               <th
                 key={col.key}
-                className="p-4 border-b border-slate-200 bg-slate-50"
+                className="p-4 border-b border-slate-200 bg-slate-100"
               >
-                <p className="text-sm font-normal leading-none text-slate-500">
+                <p className="text-sm font-semibold leading-none text-slate-800">
                   {col.label}
                 </p>
               </th>
@@ -55,7 +55,7 @@ export function TableGrid({
               >
                 {columns.map((col) => (
                   <td key={col.key} className="p-4 py-5">
-                    <p className="text-sm text-slate-500 w-40 truncate">
+                    <p className="text-sm text-slate-800 w-40 truncate cursor-pointer">
                       {renderCell
                         ? renderCell(col.key, row[col.key], row)
                         : row[col.key]}
@@ -78,7 +78,7 @@ export function TableGrid({
       </table>
 
       {onPageChange && totalPages > 1 && (
-        <div className="flex justify-between items-center px-4 py-3">
+        <div className="flex justify-between items-center px-4 py-3 bg-slate-100">
           <div className="text-sm text-slate-500">
             Page <b>{currentPage}</b> of {totalPages}
           </div>
