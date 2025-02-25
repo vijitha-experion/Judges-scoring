@@ -2,13 +2,17 @@ import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@headlessui/react";
+
 import { TableGrid } from "../../../../../components/Grid/intex";
+import AddNewProgram from "./components/AddNewProgram/intex";
+
 import { programList } from "../../../../../data";
 import { programHead } from "../../Utils/table";
 
 export function ProgramList(): ReactElement {
   let [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
   function open() {
     setIsOpen(true);
   }
@@ -26,10 +30,10 @@ export function ProgramList(): ReactElement {
       <div className="flex justify-between items-center pt-10">
         <p className="font-semibold text-xl">Program List</p>
         <Button
-          onClick={open}
           className="bg-indigo-600 py-1 px-5 rounded-md text-white"
+          onClick={open}
         >
-          Add
+          Add New Program
         </Button>
       </div>
       <TableGrid
@@ -40,6 +44,9 @@ export function ProgramList(): ReactElement {
         onPageChange={(page) => console.log("Go to page:", page)}
         onRowClick={onRowClick}
       />{" "}
+      {isOpen ? (
+        <AddNewProgram isOpen={isOpen} handleClose={handleClose} />
+      ) : null}
     </div>
   );
 }
