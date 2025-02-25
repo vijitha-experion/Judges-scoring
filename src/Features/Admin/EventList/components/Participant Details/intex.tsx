@@ -1,5 +1,4 @@
 import { ReactElement, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Button } from "@headlessui/react";
 import { TableGrid } from "../../../../../components/Grid/intex";
@@ -10,7 +9,7 @@ import { participantDetails } from "../../../../../data";
 
 export function ParticipantsDetails(): ReactElement {
   let [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
+
   function open() {
     setIsOpen(true);
   }
@@ -19,12 +18,10 @@ export function ParticipantsDetails(): ReactElement {
     setIsOpen(false);
   }
 
-  function onRowClick() {}
-
   let evaluationArray = JSON.parse(
     localStorage.getItem("EvaluationPoints") || "[]"
   );
-  console.log(evaluationArray, "evaluationArray");
+
   return (
     <div className="pl-14 mr-14">
       <div className="flex justify-between items-center pt-10">
@@ -42,7 +39,10 @@ export function ParticipantsDetails(): ReactElement {
         currentPage={1}
         totalPages={3}
         onPageChange={(page) => console.log("Go to page:", page)}
-        onRowClick={onRowClick}
+        onRowClick={null}
+        showActions={false}
+        onDelete={null}
+        onEdit={null}
       />{" "}
       <p className="font-semibold text-xl">Participant Details</p>
       <TableGrid
@@ -51,7 +51,10 @@ export function ParticipantsDetails(): ReactElement {
         currentPage={1}
         totalPages={3}
         onPageChange={(page) => console.log("Go to page:", page)}
-        onRowClick={onRowClick}
+        onRowClick={null}
+        showActions={false}
+        onDelete={null}
+        onEdit={null}
       />{" "}
       {isOpen ? (
         <AddEvaluationPoint isOpen={isOpen} handleClose={handleClose} />

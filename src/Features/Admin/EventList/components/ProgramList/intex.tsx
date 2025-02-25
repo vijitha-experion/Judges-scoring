@@ -25,6 +25,12 @@ export function ProgramList(): ReactElement {
     navigate("/participantsDetails");
   }
 
+  function onEdit (){
+    
+  }
+  function onDelete() {
+
+  }
   return (
     <div className="pl-14 mr-14">
       <div className="flex justify-between items-center pt-10">
@@ -43,6 +49,8 @@ export function ProgramList(): ReactElement {
         totalPages={3}
         onPageChange={(page) => console.log("Go to page:", page)}
         onRowClick={onRowClick}
+        onDelete={onDelete}
+        onEdit={onEdit}
       />{" "}
       {isOpen ? (
         <AddNewProgram isOpen={isOpen} handleClose={handleClose} />
