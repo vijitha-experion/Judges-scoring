@@ -1,4 +1,7 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
+
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { PencilIcon } from "@heroicons/react/24/outline";
 
 export type TableColumn = {
   key: string;
@@ -11,7 +14,10 @@ export type TableProps = {
   currentPage?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
-  onRowClick: any;
+  onRowClick: any | null;
+  showActions?: boolean;
+  onDelete: any | null;
+  onEdit: any | null;
 };
 
 export function TableGrid({
@@ -21,6 +27,9 @@ export function TableGrid({
   totalPages = 1,
   onPageChange,
   onRowClick,
+  showActions = true,
+  onEdit,
+  onDelete,
 }: TableProps): ReactElement {
   return (
     <div className="mt-5 relative flex flex-col w-full h-full text-gray-700 border rounded-md">
@@ -37,6 +46,9 @@ export function TableGrid({
                 </p>
               </th>
             ))}
+            {showActions && (
+              <th className="p-4 border-b border-slate-200 bg-slate-100" />
+            )}{" "}
           </tr>
         </thead>
         <tbody>
@@ -45,15 +57,30 @@ export function TableGrid({
               <tr
                 key={rowIndex}
                 className="hover:bg-slate-50 border-b border-slate-200"
-                onClick={onRowClick}
               >
                 {columns.map((col) => (
-                  <td key={col.key} className="p-4 py-5">
+                  <td key={col.key} className="p-4 py-5" onClick={onRowClick}>
                     <p className="text-sm text-slate-800 w-40 truncate cursor-pointer">
                       {row[col.key]}
                     </p>
                   </td>
                 ))}
+                {showActions && (
+                  <td className="p-4 flex gap-5">
+                    <button
+                      className="flex items-center justify-center"
+                      onClick={onDelete}
+                    >
+                      <TrashIcon className="h-5 w-5 text-gray-500" />
+                    </button>
+                    <button
+                      className="flex items-center justify-center"
+                      onClick={onEdit}
+                    >
+                      <PencilIcon className="h-5 w-5 text-gray-500" />
+                    </button>
+                  </td>
+                )}
               </tr>
             ))
           ) : (
