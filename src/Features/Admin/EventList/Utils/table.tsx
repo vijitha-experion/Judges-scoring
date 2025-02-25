@@ -16,9 +16,13 @@ export const programHead = [
   { key: "iscompleted", label: "Is completed" },
 ];
 
+export const evaluationHead = [
+  { key: "evaluationpoint", label: "Evaluation Point" },
+];
+
 export const participantDetailsHead = [
   { key: "participant", label: "Participant Name" },
   { key: "details", label: "Details" },
   { key: "marks", label: "Marks" },
-  { key: "position", label: "Position" },
-]
+  { key: "position", label: "Postion" },
+];
