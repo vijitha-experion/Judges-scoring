@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
+
+.react-time-picker__wrapper {
+  @apply !border-2 !border-gray-300 !rounded !h-8 !pl-2;
+}
+
+.react-time-picker__inputGroup {
+  @apply text-gray-700 text-base bg-transparent outline-none;
+}
+
+.react-time-picker__clear-button__icon {
+  stroke: slategrey !important;
+}
+
 @tailwind utilities;

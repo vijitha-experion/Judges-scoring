@@ -1,6 +1,8 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useCallback, useState } from "react";
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
+import Datepickers from "../DatePicker/intex";
+import { TimePickers } from "../TimePicker/intex";
+import { useAddNewEvent } from "../../Store/addNewEventStore";
 
 type AddEventType = {
   isOpen: boolean;
@@ -11,7 +13,22 @@ export default function AddEvent({
   isOpen,
   handleClose,
 }: AddEventType): ReactElement {
-  const [date, setDate] = useState<Date>();
+  
+  const setFieldValues = useAddNewEvent((state) => state.setFieldValues);
+  const fieldValues = useAddNewEvent((state) => state.fieldValues);
+  const clearFieldValues = useAddNewEvent((state) => state.clearFieldValues);
+
+  function onCreateNewEvent() {
+    let existingEvents = JSON.parse(
+      localStorage.getItem("eventDetails") || "[]"
+    );
+    console.log(existingEvents, "existingEvents");
+    let eventsArray = Array.isArray(existingEvents) ? existingEvents : [];
+    eventsArray.push(fieldValues);
+    localStorage.setItem("eventDetails", JSON.stringify(eventsArray));
+    handleClose();
+    clearFieldValues();
+  }
 
   return (
     <>
@@ -26,59 +43,64 @@ export default function AddEvent({
           <div className="flex min-h-full items-start justify-center mt-32">
             <DialogPanel
               transition
-              className="w-full max-w-lg rounded-xl bg-white p-6 font-semibold backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+              className="w-full max-w-lg rounded-xl bg-white backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
             >
-              <DialogTitle as="h3" className="text-lg font-medium ">
+              <DialogTitle as="h3" className="text-lg font-semibold p-6 pb-3">
                 Add New Event
               </DialogTitle>
-              <div className="flex flex-col gap-7">
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-3 items-center">
-                    <label htmlFor="event">Event Name</label>
+              <hr />
+              <div className="flex flex-col gap-7 p-6">
+                <div className="flex justify-between">
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="eventname">Event Name</label>
                     <input
-                      type="button"
-                      value="event"
-                      className="w-64 border-2 h-8 border-gray-300 rounded"
+                      type="text"
+                      id="eventname"
+                      className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
+                      value={fieldValues?.eventname}
+                      onChange={(e) =>
+                        setFieldValues("eventname", e.target.value)
+                      }
                     />
                   </div>
-                  <div className="flex gap-3 items-center">
+                  <div className="flex flex-col gap-1">
                     <label htmlFor="date">Date</label>
-                    <input
-                      type="button"
-                      value="date"
-                      className="w-11 border-2 h-8 border-gray-300 rounded"
+                    <Datepickers
+                      fieldValues={fieldValues}
+                      setFieldValues={setFieldValues}
                     />
                   </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-3 items-center">
+                <div className="flex justify-between">
+                  <div className="flex flex-col">
                     <label htmlFor="venue">Venue</label>
                     <input
-                      type="button"
-                      value="venue"
-                      className="w-64 border-2 h-8 border-gray-300 rounded"
+                      type="text"
+                      className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
+                      value={fieldValues?.venue}
+                      onChange={(e) => setFieldValues("venue", e.target.value)}
                     />
                   </div>
-                  <div className="flex gap-3 items-center">
+                  <div className="flex flex-col">
                     <label htmlFor="time">Time</label>
-                    <input
-                      type="button"
-                      value="time"
-                      className="w-11 border-2 h-8 border-gray-300 rounded"
+                    <TimePickers
+                      fieldValues={fieldValues}
+                      setFieldValues={setFieldValues}
                     />
                   </div>
                 </div>
               </div>
-              <div className="mt-4 flex justify-end gap-5">
+              <hr />
+              <div className="mt-4 flex justify-end gap-5 p-6 pt-0">
                 <Button
-                  className="inline-flex items-center gap-2 rounded-md border-2 border-gray-400 py-1.5 px-3 text-sm/6 font-semibold shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
+                  className="inline-flex items-center gap-2 rounded-md border-2 border-gray-500 py-1.5 px-3 text-sm/6 font-semibold text-gray-600 shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
                   onClick={handleClose}
                 >
                   Cancel
                 </Button>
                 <Button
                   className="inline-flex items-center gap-2 rounded-md bg-indigo-600 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
-                  onClick={handleClose}
+                  onClick={onCreateNewEvent}
                 >
                   Submit
                 </Button>
