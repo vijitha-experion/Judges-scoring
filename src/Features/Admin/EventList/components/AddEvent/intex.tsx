@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useState } from "react";
+import { ReactElement, useCallback } from "react";
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import Datepickers from "../DatePicker/intex";
 import { TimePickers } from "../TimePicker/intex";
@@ -13,10 +13,15 @@ export default function AddEvent({
   isOpen,
   handleClose,
 }: AddEventType): ReactElement {
-  
-  const setFieldValues = useAddNewEvent((state) => state.setFieldValues);
-  const fieldValues = useAddNewEvent((state) => state.fieldValues);
-  const clearFieldValues = useAddNewEvent((state) => state.clearFieldValues);
+  const setFieldValues = useAddNewEvent(
+    useCallback((state) => state.setFieldValues, [])
+  );
+  const fieldValues = useAddNewEvent(
+    useCallback((state) => state.fieldValues, [])
+  );
+  const clearFieldValues = useAddNewEvent(
+    useCallback((state) => state.clearFieldValues, [])
+  );
 
   function onCreateNewEvent() {
     let existingEvents = JSON.parse(
