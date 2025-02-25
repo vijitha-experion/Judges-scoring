@@ -1,6 +1,7 @@
-export const eventList = [
+export const eventListHead = [
   { key: "eventname", label: "Event Name" },
-  { key: "date", label: "Date" },
+  { key: "startDate", label: "Start Date" },
+  { key: "endDate", label: "End Date" },
   { key: "time", label: "Time" },
   { key: "venue", label: "Venue" },
   { key: "iscompleted", label: "Is completed" },
