@@ -22,7 +22,6 @@ export default function AddEvent({
     let existingEvents = JSON.parse(
       localStorage.getItem("eventDetails") || "[]"
     );
-    console.log(existingEvents, "existingEvents");
     let eventsArray = Array.isArray(existingEvents) ? existingEvents : [];
     eventsArray.push(fieldValues);
     localStorage.setItem("eventDetails", JSON.stringify(eventsArray));

@@ -34,7 +34,7 @@ export function EventList(): ReactElement {
           onClick={open}
           className="bg-indigo-600 py-1 px-5 rounded-md text-white"
         >
-          Add
+          Add New Event
         </Button>
       </div>
       <TableGrid

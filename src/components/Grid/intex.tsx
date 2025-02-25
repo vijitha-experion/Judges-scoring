@@ -22,7 +22,6 @@ export function TableGrid({
   onPageChange,
   onRowClick,
 }: TableProps): ReactElement {
-  console.log(data, "data");
   return (
     <div className="mt-5 relative flex flex-col w-full h-full text-gray-700 border rounded-md">
       <table className="w-full text-left table-auto min-w-max">
