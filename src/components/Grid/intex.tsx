@@ -69,7 +69,7 @@ export function TableGrid({
                   <td className="p-4 flex gap-5">
                     <button
                       className="flex items-center justify-center"
-                      onClick={onDelete}
+                      onClick={() => onDelete(row)}
                     >
                       <TrashIcon className="h-5 w-5 text-gray-500" />
                     </button>
