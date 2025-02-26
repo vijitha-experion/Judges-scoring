@@ -3,7 +3,8 @@ export type TableHead = {
   name: string;
 };
 
-export type TableData = {
+export type EventType = {
+  id: number;
   eventname: string;
   date: string;
   time: string;
