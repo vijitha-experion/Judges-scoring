@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@headlessui/react";
@@ -9,6 +9,7 @@ import { DialogBox } from "../../../components/Dialog/intext";
 
 import { eventListHead } from "./Utils/table";
 import { EventType } from "./Types/table";
+import { useAddNewEvent } from "./Store/addNewEventStore";
 
 export function EventList(): ReactElement {
   let [isOpen, setIsOpen] = useState(false);
@@ -17,7 +18,12 @@ export function EventList(): ReactElement {
 
   const navigate = useNavigate();
 
+  const clearEventValue = useAddNewEvent(
+    useCallback((state) => state.clearEventValue, [])
+  );
+
   function open() {
+    clearEventValue();
     setIsOpen(true);
   }
 

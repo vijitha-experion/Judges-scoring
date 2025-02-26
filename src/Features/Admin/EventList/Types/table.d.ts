@@ -4,9 +4,9 @@ export type TableHead = {
 };
 
 export type EventType = {
-  id: number;
   eventname: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   time: string;
   venue: string;
   iscompleted: string;

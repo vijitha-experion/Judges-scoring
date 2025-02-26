@@ -1,8 +1,18 @@
 import { ReactElement, useCallback } from "react";
+
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+
 import Datepickers from "../DatePicker/intex";
 import { TimePickers } from "../TimePicker/intex";
+
 import { useAddNewEvent } from "../../Store/addNewEventStore";
+import {
+  dateWarning,
+  eventDuplicate,
+  eventWarning,
+  timeWarning,
+  venuWarning,
+} from "./Utils/intex";
 
 type AddEventType = {
   isOpen: boolean;
@@ -13,27 +23,50 @@ export default function AddEvent({
   isOpen,
   handleClose,
 }: AddEventType): ReactElement {
-  const setFieldValues = useAddNewEvent(
-    useCallback((state) => state.setFieldValues, [])
+  const setEventValue = useAddNewEvent(
+    useCallback((state) => state.setEventValue, [])
   );
-  const fieldValues = useAddNewEvent(
-    useCallback((state) => state.fieldValues, [])
+  const eventValue = useAddNewEvent(
+    useCallback((state) => state.eventValue, [])
   );
-  const clearFieldValues = useAddNewEvent(
-    useCallback((state) => state.clearFieldValues, [])
+  const clearEventValue = useAddNewEvent(
+    useCallback((state) => state.clearEventValue, [])
   );
+
+  const showWarning = useAddNewEvent(
+    useCallback((state) => state.showWarning, [])
+  );
+
+  const warningType = showWarning(eventValue, "eventname");
 
   function onCreateNewEvent() {
     let existingEvents = JSON.parse(
       localStorage.getItem("eventDetails") || "[]"
     );
     let eventsArray = Array.isArray(existingEvents) ? existingEvents : [];
-    eventsArray.push(fieldValues);
+    eventsArray.push(eventValue);
     localStorage.setItem("eventDetails", JSON.stringify(eventsArray));
     handleClose();
-    clearFieldValues();
+    clearEventValue();
   }
 
+  function checkDisable() {
+    return (
+      !eventValue?.eventname?.trim() ||
+      !eventValue?.venue?.trim() ||
+      !eventValue?.startDate ||
+      !eventValue?.time ||
+      showWarning(eventValue, "eventname") ||
+      showWarning(eventValue, "venue") ||
+      showWarning(eventValue, "startDate") ||
+      showWarning(eventValue, "time")
+    );
+  }
+
+  function onCancel() {
+    handleClose();
+    clearEventValue();
+  }
   return (
     <>
       <Dialog
@@ -61,18 +94,28 @@ export default function AddEvent({
                       type="text"
                       id="eventname"
                       className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
-                      value={fieldValues?.eventname}
-                      onChange={(e) =>
-                        setFieldValues("eventname", e.target.value)
-                      }
+                      value={eventValue?.eventname}
+                      onChange={(e) => {
+                        setEventValue("eventname", e.target.value);
+                        console.log(e.target.value, "hi");
+                      }}
                     />
+                    {warningType === "empty" && (
+                      <p className="text-red-500 text-sm">{eventWarning}</p>
+                    )}
+                    {warningType === "duplicate" && (
+                      <p className="text-red-500 text-sm">{eventDuplicate}</p>
+                    )}
                   </div>
                   <div className="flex flex-col gap-1">
                     <label htmlFor="date">Date</label>
                     <Datepickers
-                      fieldValues={fieldValues}
-                      setFieldValues={setFieldValues}
+                      fieldValues={eventValue}
+                      setFieldValues={setEventValue}
                     />
+                    {showWarning(eventValue, "startDate") && (
+                      <p className="text-red-500 text-sm">{dateWarning}</p>
+                    )}
                   </div>
                 </div>
                 <div className="flex justify-between">
@@ -81,16 +124,22 @@ export default function AddEvent({
                     <input
                       type="text"
                       className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
-                      value={fieldValues?.venue}
-                      onChange={(e) => setFieldValues("venue", e.target.value)}
+                      value={eventValue?.venue}
+                      onChange={(e) => setEventValue("venue", e.target.value)}
                     />
+                    {showWarning(eventValue, "venue") && (
+                      <p className="text-red-500 text-sm">{venuWarning}</p>
+                    )}
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="time">Time</label>
                     <TimePickers
-                      fieldValues={fieldValues}
-                      setFieldValues={setFieldValues}
+                      fieldValues={eventValue}
+                      setFieldValues={setEventValue}
                     />
+                    {showWarning(eventValue, "time") && (
+                      <p className="text-red-500 text-sm">{timeWarning}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -98,12 +147,17 @@ export default function AddEvent({
               <div className="mt-4 flex justify-end gap-5 p-6 pt-0">
                 <Button
                   className="inline-flex items-center gap-2 rounded-md border-2 border-gray-500 py-1.5 px-3 text-sm/6 font-semibold text-gray-600 shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
-                  onClick={handleClose}
+                  onClick={onCancel}
                 >
                   Cancel
                 </Button>
                 <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-indigo-600 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
+                  className={`inline-flex items-center gap-2 rounded-md py-1.5 px-3 text-sm/6 font-semibold shadow-inner shadow-white/10 focus:outline-none  ${
+                    checkDisable()
+                      ? "bg-indigo-400 text-gray-200 cursor-not-allowed"
+                      : "bg-indigo-500 text-white hover:bg-indigo-600"
+                  }`}
+                  disabled={checkDisable()}
                   onClick={onCreateNewEvent}
                 >
                   Submit
