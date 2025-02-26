@@ -3,6 +3,10 @@ import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
 const Datepickers = ({ setFieldValues, fieldValues }: any) => {
   const handleChange = (newValue: DateValueType) => {
     if (newValue) {
+      setFieldValues("touchedFields", {
+        ...fieldValues?.touchedFields,
+        startDate: true,
+      });
       setFieldValues(
         "startDate",
         newValue.startDate
