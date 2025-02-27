@@ -8,9 +8,13 @@ import AddNewProgram from "./components/AddNewProgram/intex";
 
 import { programHead } from "../../Utils/table";
 import { useAddProgram } from "./store/addProgram";
+import { ProgramType } from "./Types/intex";
+import { DialogBox } from "../../../../../components/Dialog/intext";
 
 export function ProgramList(): ReactElement {
   let [isOpen, setIsOpen] = useState(false);
+  let [isDelete, setIsDelete] = useState(false);
+  let [selectedRow, setSelectedRow] = useState<ProgramType | null>(null);
   const navigate = useNavigate();
 
   const clearProgramValues = useAddProgram(
@@ -38,7 +42,28 @@ export function ProgramList(): ReactElement {
   }
 
   function onEdit() {}
-  function onDelete() {}
+
+  function handleDelete(row: ProgramType) {
+    setSelectedRow(row);
+    setIsDelete(true);
+  }
+
+  function handleDeleteClose() {
+    setIsDelete(false);
+    setSelectedRow(null);
+  }
+
+  function onConfirmDelete() {
+    if (selectedRow) {
+      const updatedEvents = programsList.filter(
+        (event: ProgramType) => event.programname !== selectedRow?.programname
+      );
+      localStorage.setItem("programDetails", JSON.stringify(updatedEvents));
+      setIsDelete(false);
+      setSelectedRow(null);
+    }
+  }
+
   return (
     <div className="pl-14 mr-14">
       <div className="flex justify-between items-center pt-10">
@@ -57,12 +82,23 @@ export function ProgramList(): ReactElement {
         totalPages={3}
         onPageChange={(page) => console.log("Go to page:", page)}
         onRowClick={onRowClick}
-        onDelete={onDelete}
+        onDelete={handleDelete}
         onEdit={onEdit}
       />{" "}
       {isOpen ? (
         <AddNewProgram isOpen={isOpen} handleClose={handleClose} />
       ) : null}
+      {isDelete && (
+        <DialogBox
+          title="Delete Event"
+          description="Are you sure you want to delete this Program?"
+          button1="Cancel"
+          button2="Delete"
+          opened={isDelete}
+          handleClose={handleDeleteClose}
+          handleAction={onConfirmDelete}
+        />
+      )}
     </div>
   );
 }
