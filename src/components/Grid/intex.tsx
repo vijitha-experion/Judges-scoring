@@ -2,6 +2,9 @@ import { ReactElement, useState } from "react";
 
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { PencilIcon } from "@heroicons/react/24/outline";
+import { Tooltip } from "react-tooltip";
+
+import { ProgramType } from "../../Features/Admin/EventList/components/ProgramList/Types/intex";
 
 export type TableColumn = {
   key: string;
@@ -31,6 +34,8 @@ export function TableGrid({
   onEdit,
   onDelete,
 }: TableProps): ReactElement {
+  let programsList = JSON.parse(localStorage.getItem("programDetails") || "[]");
+
   return (
     <div className="mt-5 relative flex flex-col w-full h-full text-gray-700 border rounded-md">
       <table className="w-full text-left table-auto min-w-max">
@@ -60,9 +65,108 @@ export function TableGrid({
               >
                 {columns.map((col) => (
                   <td key={col.key} className="p-4 py-5" onClick={onRowClick}>
-                    <p className="text-sm text-slate-800 w-40 truncate cursor-pointer">
-                      {row[col.key]}
-                    </p>
+                    <div className="flex">
+                      <p
+                        title={row[col.key]}
+                        className="text-sm text-slate-800 w-28 truncate cursor-pointer"
+                      >
+                        {row[col.key]}
+                      </p>
+                      {col.key === "judges" &&
+                        (() => {
+                          const program = programsList.find(
+                            (p: ProgramType) =>
+                              p.programname === row.programname
+                          );
+                          if (!program || program.judges.length <= 1)
+                            return null;
+
+                          const anchorId = `judges-count-${rowIndex}`;
+
+                          return (
+                            <div key={anchorId} className="relative">
+                              <div
+                                id={anchorId}
+                                className="border border-gray-100 bg-sky-100 px-2 py-1 rounded-md font-semibold inline-block cursor-pointer"
+                              >
+                                + {program.judges.length - 1}
+                              </div>
+                              <Tooltip
+                                anchorSelect={`#${anchorId}`}
+                                place="right"
+                                style={{
+                                  backgroundColor: "#d9f4ff",
+                                  boxShadow: "inherit",
+                                  paddingLeft: "20px",
+                                  paddingRight: "20px",
+                                  zIndex: 10,
+                                  overflowY: "auto",
+                                }}
+                              >
+                                {program.judges.length > 0
+                                  ? program.judges.map(
+                                      (judge: any, jIndex: number) => (
+                                        <div
+                                          key={jIndex}
+                                          className="text-black text-sm font-medium"
+                                        >
+                                          {judge.label}
+                                        </div>
+                                      )
+                                    )
+                                  : null}
+                              </Tooltip>
+                            </div>
+                          );
+                        })()}
+                      {col.key === "participant" &&
+                        (() => {
+                          const program = programsList.find(
+                            (p: ProgramType) =>
+                              p.programname === row.programname
+                          );
+                          if (!program || program.participant.length <= 1)
+                            return null;
+
+                          const participantId = `participant-count-${rowIndex}`;
+
+                          return (
+                            <div key={participantId} className="relative">
+                              <div
+                                id={participantId}
+                                className="border border-gray-100 bg-sky-100 px-2 py-1 rounded-md font-semibold inline-block cursor-pointer"
+                              >
+                                + {program.participant.length - 1}
+                              </div>
+                              <Tooltip
+                                anchorSelect={`#${participantId}`}
+                                place="right"
+                                style={{
+                                  backgroundColor: "#d9f4ff",
+                                  boxShadow: "inherit",
+                                  paddingLeft: "20px",
+                                  paddingRight: "20px",
+                                  zIndex: 10,
+                                  overflowY: "auto",
+                                }}
+                              >
+                                {program.participant.length > 0
+                                  ? program.participant.map(
+                                      (participant: any, pIndex: number) => (
+                                        <div
+                                          key={pIndex}
+                                          className="text-black text-sm font-medium"
+                                        >
+                                          {participant.label}
+                                        </div>
+                                      )
+                                    )
+                                  : null}
+                              </Tooltip>
+                            </div>
+                          );
+                        })()}
+                    </div>
                   </td>
                 ))}
                 {showActions && (

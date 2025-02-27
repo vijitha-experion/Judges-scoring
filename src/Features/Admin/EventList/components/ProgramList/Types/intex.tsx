@@ -5,5 +5,6 @@ export type ProgramType = {
   startDate: string;
   endDate: string;
   time: string;
+  participant:[];
   iscompleted: string;
 };

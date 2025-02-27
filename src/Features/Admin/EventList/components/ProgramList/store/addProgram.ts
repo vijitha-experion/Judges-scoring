@@ -43,7 +43,8 @@ export const useAddProgram = create<any>()((set, get) => ({
       return !program?.description?.trim() ? true : false;
     if (field === "startDate") return !program?.startDate ? true : false;
     if (field === "time") return !program?.time ? true : false;
-    if (field === "judges") return !program?.judges;
+    if (field === "judges") return !program?.judges ? true : false;
+    if (field === "participant") return !program?.participant ? true : false;
 
     return false;
   },
