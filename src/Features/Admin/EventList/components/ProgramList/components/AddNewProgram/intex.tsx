@@ -6,6 +6,14 @@ import Datepickers from "../../../DatePicker/intex";
 import { TimePickers } from "../../../TimePicker/intex";
 import { useAddProgram } from "../../store/addProgram";
 import { ReactSelect } from "../../../../../../../components/ReactSelect/intex";
+import {
+  dateWarning,
+  descriptionWarning,
+  judgesWarning,
+  participantWarning,
+  programDuplicate,
+  programWarning,
+} from "../../Utils/warnings";
 
 type AddNewProgramType = {
   isOpen: boolean;
@@ -25,6 +33,11 @@ export default function AddNewProgram({
   const clearProgramValues = useAddProgram(
     useCallback((state) => state.clearProgramValues, [])
   );
+  const showWarning = useAddProgram(
+    useCallback((state) => state.showWarning, [])
+  );
+
+  const warningType = showWarning(programValues, "programname");
 
   function onCreateNewProgram() {
     let existingProgram = JSON.parse(
@@ -57,6 +70,27 @@ export default function AddNewProgram({
     { value: "F", label: "F" },
     { value: "G", label: "G" },
   ];
+  function checkDisable() {
+    return (
+      !programValues?.programname?.trim() ||
+      !programValues?.description?.trim() ||
+      !programValues?.startDate ||
+      !programValues?.time ||
+      !programValues?.judges ||
+      !programValues?.participant ||
+      !!showWarning(programValues, "programname") ||
+      !!showWarning(programValues, "description") ||
+      !!showWarning(programValues, "startDate") ||
+      !!showWarning(programValues, "time") ||
+      !!showWarning(programValues, "judges") ||
+      !!showWarning(programValues, "participant")
+    );
+  }
+
+  function onCancel() {
+    clearProgramValues();
+    handleClose();
+  }
   return (
     <>
       <Dialog
@@ -89,6 +123,12 @@ export default function AddNewProgram({
                         setProgramValues("programname", e.target.value)
                       }
                     />
+                    {warningType === "empty" && (
+                      <p className="text-red-500 text-sm">{programWarning}</p>
+                    )}
+                    {warningType === "duplicate" && (
+                      <p className="text-red-500 text-sm">{programDuplicate}</p>
+                    )}
                   </div>
                   <div className="flex flex-col gap-1">
                     <label htmlFor="date">Date</label>
@@ -96,11 +136,14 @@ export default function AddNewProgram({
                       fieldValues={programValues}
                       setFieldValues={setProgramValues}
                     />
+                    {showWarning(programValues, "date") && (
+                      <p className="text-red-500 text-sm">{dateWarning}</p>
+                    )}
                   </div>
                 </div>
                 <div className="flex justify-between">
                   <div className="flex flex-col">
-                    <label htmlFor="description">Venue</label>
+                    <label htmlFor="description">Description</label>
                     <input
                       type="text"
                       id="description"
@@ -110,6 +153,11 @@ export default function AddNewProgram({
                         setProgramValues("description", e.target.value)
                       }
                     />
+                    {showWarning(programValues, "description") && (
+                      <p className="text-red-500 text-sm">
+                        {descriptionWarning}
+                      </p>
+                    )}
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="time">Time</label>
@@ -131,6 +179,9 @@ export default function AddNewProgram({
                     isSearchable={true}
                     menuPlacement="top"
                   />
+                  {showWarning(programValues, "judges") && (
+                    <p className="text-red-500 text-sm">{judgesWarning}</p>
+                  )}
                 </div>
                 <div className="flex flex-col gap-1">
                   <label htmlFor="participant">Participant names</label>
@@ -144,18 +195,26 @@ export default function AddNewProgram({
                     isSearchable={true}
                     menuPlacement="top"
                   />
+                  {showWarning(programValues, "participant") && (
+                    <p className="text-red-500 text-sm">{participantWarning}</p>
+                  )}
                 </div>
               </div>
               <hr />
               <div className="mt-4 flex justify-end gap-5 p-6 pt-0">
                 <Button
                   className="inline-flex items-center gap-2 rounded-md border-2 border-gray-500 py-1.5 px-3 text-sm/6 font-semibold text-gray-600 shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
-                  onClick={handleClose}
+                  onClick={onCancel}
                 >
                   Cancel
                 </Button>
                 <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-indigo-600 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
+                  className={`inline-flex items-center gap-2 rounded-md py-1.5 px-3 text-sm/6 font-semibold shadow-inner shadow-white/10 focus:outline-none  ${
+                    checkDisable()
+                      ? "bg-indigo-400 text-gray-200 cursor-not-allowed"
+                      : "bg-indigo-600 text-white hover:bg-indigo-500"
+                  }`}
+                  disabled={checkDisable()}
                   onClick={onCreateNewProgram}
                 >
                   Submit
