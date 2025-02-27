@@ -4,16 +4,18 @@ export const eventListHead = [
   { key: "endDate", label: "End Date" },
   { key: "time", label: "Time" },
   { key: "venue", label: "Venue" },
-  { key: "iscompleted", label: "Is completed" },
+  // { key: "iscompleted", label: "Is completed" },
 ];
 
 export const programHead = [
   { key: "programname", label: "Program Name" },
   { key: "description", label: "Description" },
-  { key: "judgesname", label: "Judges Name" },
-  { key: "date", label: "Date" },
+  { key: "judges", label: "Judges Name" },
+  { key: "startDate", label: "Start Date" },
+  { key: "endDate", label: "End Date" },
   { key: "time", label: "Time" },
-  { key: "iscompleted", label: "Is completed" },
+  { key: "participant", label: "Participant Name" },
+  // { key: "iscompleted", label: "Is completed" },
 ];
 
 export const evaluationHead = [

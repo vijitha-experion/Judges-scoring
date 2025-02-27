@@ -4,8 +4,9 @@ import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 
 import Datepickers from "../../../DatePicker/intex";
 import { TimePickers } from "../../../TimePicker/intex";
-import { useAddProgram } from "../../store/addProgram";
 import { ReactSelect } from "../../../../../../../components/ReactSelect/intex";
+
+import { useAddProgram } from "../../store/addProgram";
 import {
   dateWarning,
   descriptionWarning,
@@ -13,6 +14,7 @@ import {
   participantWarning,
   programDuplicate,
   programWarning,
+  timeWarning,
 } from "../../Utils/warnings";
 
 type AddNewProgramType = {
@@ -52,24 +54,25 @@ export default function AddNewProgram({
   }
 
   const judgesOptions = [
-    { value: "A", label: "A" },
-    { value: "B", label: "B" },
-    { value: "C", label: "C" },
-    { value: "D", label: "D" },
-    { value: "E", label: "E" },
-    { value: "F", label: "F" },
-    { value: "G", label: "G" },
+    { value: "Seetha", label: "Seetha" },
+    { value: "Raj", label: "Raj" },
+    { value: "Aleena", label: "Aleena" },
+    { value: "Geetha", label: "Geetha" },
+    { value: "Priyan", label: "Priyan" },
+    { value: "Vinodh", label: "Vinodh" },
+    { value: "Rari", label: "Rari" },
   ];
 
   const participantOptions = [
-    { value: "A", label: "A" },
-    { value: "B", label: "B" },
-    { value: "C", label: "C" },
-    { value: "D", label: "D" },
-    { value: "E", label: "E" },
-    { value: "F", label: "F" },
-    { value: "G", label: "G" },
+    { value: "Ramu", label: "Ramu" },
+    { value: "Latha", label: "Latha" },
+    { value: "Deepthi", label: "Deepthi" },
+    { value: "Neeli", label: "Neeli" },
+    { value: "Thira", label: "Thira" },
+    { value: "Hari", label: "Hari" },
+    { value: "Jaasi", label: "Jaasi" },
   ];
+
   function checkDisable() {
     return (
       !programValues?.programname?.trim() ||
@@ -136,7 +139,7 @@ export default function AddNewProgram({
                       fieldValues={programValues}
                       setFieldValues={setProgramValues}
                     />
-                    {showWarning(programValues, "date") && (
+                    {showWarning(programValues, "startDate") && (
                       <p className="text-red-500 text-sm">{dateWarning}</p>
                     )}
                   </div>
@@ -165,6 +168,9 @@ export default function AddNewProgram({
                       fieldValues={programValues}
                       setFieldValues={setProgramValues}
                     />
+                    {showWarning(programValues, "time") && (
+                      <p className="text-red-500 text-sm">{timeWarning}</p>
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
