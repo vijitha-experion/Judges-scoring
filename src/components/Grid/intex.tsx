@@ -179,7 +179,7 @@ export function TableGrid({
                     </button>
                     <button
                       className="flex items-center justify-center"
-                      onClick={onEdit}
+                      onClick={() => onEdit(row)}
                     >
                       <PencilIcon className="h-5 w-5 text-gray-500" />
                     </button>

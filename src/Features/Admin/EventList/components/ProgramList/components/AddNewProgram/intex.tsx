@@ -1,4 +1,4 @@
-import { ReactElement, useCallback } from "react";
+import { ReactElement, useCallback, useEffect } from "react";
 
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 
@@ -16,6 +16,7 @@ import {
   programWarning,
   timeWarning,
 } from "../../Utils/warnings";
+import { ProgramType } from "../../Types/intex";
 
 type AddNewProgramType = {
   isOpen: boolean;
@@ -48,6 +49,7 @@ export default function AddNewProgram({
     let programArray = Array.isArray(existingProgram) ? existingProgram : [];
     programArray.push(programValues);
     localStorage.setItem("programDetails", JSON.stringify(programArray));
+    localStorage.removeItem("editProgram");
     handleClose();
     clearProgramValues();
     handleClose();
@@ -94,6 +96,17 @@ export default function AddNewProgram({
     clearProgramValues();
     handleClose();
   }
+
+  let editProgram = JSON.parse(localStorage.getItem("editProgram") || "{}");
+  let programsList = JSON.parse(localStorage.getItem("programDetails") || "[]");
+  const filteredEdit = editProgram.programname
+    ? programsList.find(
+        (item: ProgramType) => item.programname === editProgram.programname
+      )
+    : {};
+
+  console.log(filteredEdit, "filteredEdit");
+
   return (
     <>
       <Dialog
@@ -110,7 +123,7 @@ export default function AddNewProgram({
               className="w-full max-w-lg rounded-xl bg-white backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
             >
               <DialogTitle as="h3" className="text-lg font-semibold p-6 pb-3">
-                Add New Program
+                {editProgram ? "Edit Program" : "Add New Program"}
               </DialogTitle>
               <hr />
               <div className="flex flex-col gap-7 p-6">
@@ -121,7 +134,11 @@ export default function AddNewProgram({
                       type="text"
                       id="programname"
                       className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
-                      value={programValues?.programname}
+                      value={
+                        programValues?.programname ??
+                        filteredEdit?.programname ??
+                        ""
+                      }
                       onChange={(e) =>
                         setProgramValues("programname", e.target.value)
                       }
@@ -151,7 +168,11 @@ export default function AddNewProgram({
                       type="text"
                       id="description"
                       className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
-                      value={programValues?.description}
+                      value={
+                        programValues?.description ??
+                        filteredEdit?.description ??
+                        ""
+                      }
                       onChange={(e) =>
                         setProgramValues("description", e.target.value)
                       }
@@ -165,7 +186,9 @@ export default function AddNewProgram({
                   <div className="flex flex-col">
                     <label htmlFor="time">Time</label>
                     <TimePickers
-                      fieldValues={programValues}
+                      fieldValues={
+                        programValues?.time ?? filteredEdit?.time ?? ""
+                      }
                       setFieldValues={setProgramValues}
                     />
                     {showWarning(programValues, "time") && (
@@ -181,7 +204,7 @@ export default function AddNewProgram({
                     setSelectedOptions={(e) => {
                       setProgramValues("judges", e);
                     }}
-                    value={programValues?.judges}
+                    value={programValues?.judges ?? filteredEdit?.judges ?? []}
                     isSearchable={true}
                     menuPlacement="top"
                   />
@@ -197,7 +220,11 @@ export default function AddNewProgram({
                     setSelectedOptions={(e) => {
                       setProgramValues("participant", e);
                     }}
-                    value={programValues?.participant}
+                    value={
+                      programValues?.participant ??
+                      filteredEdit?.participant ??
+                      []
+                    }
                     isSearchable={true}
                     menuPlacement="top"
                   />

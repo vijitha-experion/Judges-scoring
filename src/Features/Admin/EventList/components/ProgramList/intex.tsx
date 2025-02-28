@@ -29,6 +29,7 @@ export function ProgramList(): ReactElement {
   }));
 
   function open() {
+    localStorage.removeItem("editProgram");
     clearProgramValues();
     setIsOpen(true);
   }
@@ -41,7 +42,10 @@ export function ProgramList(): ReactElement {
     navigate("/participantsDetails");
   }
 
-  function onEdit() {}
+  function onEdit(row: ProgramType) {
+    localStorage.setItem("editProgram", JSON.stringify(row));
+    setIsOpen(true);
+  }
 
   function handleDelete(row: ProgramType) {
     setSelectedRow(row);
