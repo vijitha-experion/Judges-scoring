@@ -21,11 +21,13 @@ import { ProgramType } from "../../Types/intex";
 type AddNewProgramType = {
   isOpen: boolean;
   handleClose: () => void;
+  event: string;
 };
 
 export default function AddNewProgram({
   isOpen,
   handleClose,
+  event,
 }: AddNewProgramType): ReactElement {
   const setProgramValues = useAddProgram(
     useCallback((state) => state.setProgramValues, [])
@@ -47,12 +49,14 @@ export default function AddNewProgram({
       localStorage.getItem("programDetails") || "[]"
     );
     let programArray = Array.isArray(existingProgram) ? existingProgram : [];
-    programArray.push(programValues);
+
+    let newProgram = { ...programValues, eventName: event };
+
+    programArray.push(newProgram);
     localStorage.setItem("programDetails", JSON.stringify(programArray));
     localStorage.removeItem("editProgram");
     handleClose();
     clearProgramValues();
-    handleClose();
   }
 
   const judgesOptions = [
