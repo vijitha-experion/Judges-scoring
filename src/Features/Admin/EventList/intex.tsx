@@ -31,8 +31,8 @@ export function EventList(): ReactElement {
     setIsOpen(false);
   }
 
-  function onRowClick() {
-    navigate("/programList");
+  function onRowClick(row: EventType) {
+    navigate("/programList", {state: {event: row.eventname}});
   }
 
   let eventsArray = JSON.parse(localStorage.getItem("eventDetails") || "[]");

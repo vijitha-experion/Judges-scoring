@@ -1,5 +1,5 @@
 import { ReactElement, useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button } from "@headlessui/react";
 
@@ -17,12 +17,19 @@ export function ProgramList(): ReactElement {
   let [selectedRow, setSelectedRow] = useState<ProgramType | null>(null);
   const navigate = useNavigate();
 
+  const location = useLocation();
+  const event = location.state?.event;
+
   const clearProgramValues = useAddProgram(
     useCallback((state) => state.clearProgramValues, [])
   );
 
   let programsList = JSON.parse(localStorage.getItem("programDetails") || "[]");
-  let formattedProgramsList = programsList.map((program: any) => ({
+  const eventFilterProgram = programsList.filter(
+    (item: ProgramType) => item.eventName === event
+  );
+
+  let formattedProgramsList = eventFilterProgram.map((program: any) => ({
     ...program,
     judges: program.judges?.[0]?.value || "",
     participant: program.participant?.[0]?.value || "",
@@ -35,6 +42,7 @@ export function ProgramList(): ReactElement {
   }
 
   function handleClose() {
+    clearProgramValues();
     setIsOpen(false);
   }
 
@@ -90,7 +98,11 @@ export function ProgramList(): ReactElement {
         onEdit={onEdit}
       />{" "}
       {isOpen ? (
-        <AddNewProgram isOpen={isOpen} handleClose={handleClose} />
+        <AddNewProgram
+          isOpen={isOpen}
+          handleClose={handleClose}
+          event={event}
+        />
       ) : null}
       {isDelete && (
         <DialogBox

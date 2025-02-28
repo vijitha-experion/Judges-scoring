@@ -64,7 +64,7 @@ export function TableGrid({
                 className="hover:bg-slate-50 border-b border-slate-200"
               >
                 {columns.map((col) => (
-                  <td key={col.key} className="p-4 py-5" onClick={onRowClick}>
+                  <td key={col.key} className="p-4 py-5" onClick={()=>onRowClick(row)}>
                     <div className="flex">
                       <p
                         title={row[col.key]}
