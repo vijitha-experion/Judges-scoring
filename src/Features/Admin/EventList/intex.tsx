@@ -32,12 +32,15 @@ export function EventList(): ReactElement {
   }
 
   function onRowClick(row: EventType) {
-    navigate("/programList", {state: {event: row.eventname}});
+    navigate("/programList", { state: { event: row.eventname } });
   }
 
   let eventsArray = JSON.parse(localStorage.getItem("eventDetails") || "[]");
 
-  function onEdit() {}
+  function onEdit(row: EventType) {
+    localStorage.setItem("editEvent", JSON.stringify(row));
+    setIsOpen(true);
+  }
 
   function handleDelete(row: EventType) {
     setSelectedRow(row);
@@ -56,8 +59,6 @@ export function EventList(): ReactElement {
       );
 
       localStorage.setItem("eventDetails", JSON.stringify(updatedEvents));
-
-      console.log(selectedRow, "Deleted row");
 
       setIsDelete(false);
       setSelectedRow(null);

@@ -13,6 +13,7 @@ import {
   timeWarning,
   venuWarning,
 } from "./Utils/intex";
+import { EventType } from "../../Types/table";
 
 type AddEventType = {
   isOpen: boolean;
@@ -52,10 +53,10 @@ export default function AddEvent({
 
   function checkDisable() {
     return (
-      !eventValue?.eventname?.trim() ||
-      !eventValue?.venue?.trim() ||
-      !eventValue?.startDate ||
-      !eventValue?.time ||
+      (!eventValue?.eventname?.trim() && !filteredEvent?.eventname?.trim()) ||
+      (!eventValue?.venue?.trim() && !filteredEvent?.venue?.trim()) ||
+      (!eventValue?.startDate && !filteredEvent?.startDate) ||
+      (!eventValue?.time && !filteredEvent?.time) ||
       showWarning(eventValue, "eventname") ||
       showWarning(eventValue, "venue") ||
       showWarning(eventValue, "startDate") ||
@@ -67,6 +68,25 @@ export default function AddEvent({
     handleClose();
     clearEventValue();
   }
+
+  const editEvent = JSON.parse(localStorage.getItem("editEvent") || "{}");
+  const existingEvents = JSON.parse(
+    localStorage.getItem("eventDetails") || "[]"
+  );
+  const filteredEvent = existingEvents.find(
+    (item: EventType) => item.eventname === editEvent.eventname
+  );
+
+  function onEditEvent() {
+    const updatedEvent = { ...filteredEvent, ...eventValue };
+    const newEventArray = existingEvents.map((event: EventType) =>
+      event.eventname === filteredEvent.eventname ? updatedEvent : event
+    );
+    localStorage.setItem("eventDetails", JSON.stringify(newEventArray));
+    localStorage.removeItem("editEvent");
+    handleClose();
+  }
+
   return (
     <>
       <Dialog
@@ -83,7 +103,7 @@ export default function AddEvent({
               className="w-full max-w-lg rounded-xl bg-white backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
             >
               <DialogTitle as="h3" className="text-lg font-semibold p-6 pb-3">
-                Add New Event
+                {editEvent ? "Edit Event" : "Add New Event"}
               </DialogTitle>
               <hr />
               <div className="flex flex-col gap-7 p-6">
@@ -93,11 +113,15 @@ export default function AddEvent({
                     <input
                       type="text"
                       id="eventname"
-                      className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
-                      value={eventValue?.eventname}
+                      className={`w-64 border-2 h-8 border-gray-300 rounded pl-2 ${
+                        filteredEvent ? "text-gray-400" : "text-gray-700"
+                      }`}
+                      value={
+                        eventValue?.eventname ?? filteredEvent?.eventname ?? ""
+                      }
+                      disabled={filteredEvent}
                       onChange={(e) => {
                         setEventValue("eventname", e.target.value);
-                        console.log(e.target.value, "hi");
                       }}
                     />
                     {warningType === "empty" && (
@@ -112,6 +136,7 @@ export default function AddEvent({
                     <Datepickers
                       fieldValues={eventValue}
                       setFieldValues={setEventValue}
+                      filteredEvent={filteredEvent}
                     />
                     {showWarning(eventValue, "startDate") && (
                       <p className="text-red-500 text-sm">{dateWarning}</p>
@@ -124,7 +149,7 @@ export default function AddEvent({
                     <input
                       type="text"
                       className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
-                      value={eventValue?.venue}
+                      value={eventValue?.venue ?? filteredEvent?.venue ?? ""}
                       onChange={(e) => setEventValue("venue", e.target.value)}
                     />
                     {showWarning(eventValue, "venue") && (
@@ -136,6 +161,7 @@ export default function AddEvent({
                     <TimePickers
                       fieldValues={eventValue}
                       setFieldValues={setEventValue}
+                      filteredEvent={filteredEvent}
                     />
                     {showWarning(eventValue, "time") && (
                       <p className="text-red-500 text-sm">{timeWarning}</p>
@@ -158,9 +184,9 @@ export default function AddEvent({
                       : "bg-indigo-500 text-white hover:bg-indigo-600"
                   }`}
                   disabled={checkDisable()}
-                  onClick={onCreateNewEvent}
+                  onClick={editEvent ? onEditEvent : onCreateNewEvent}
                 >
-                  Submit
+                  {editEvent ? "Update" : "Add"}
                 </Button>
               </div>
             </DialogPanel>

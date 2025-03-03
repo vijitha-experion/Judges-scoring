@@ -10,13 +10,14 @@ export const useAddNewEvent = create<any>()((set, get) => ({
     set(
       produce((state: any) => {
         state.eventValue = { ...get().eventValue, [key]: value };
-        state.touchedFields[key] = true; 
+        state.touchedFields[key] = true;
       })
     );
   },
   clearEventValue() {
     set(
       produce((state: any) => {
+        localStorage.removeItem("editEvent");
         state.eventValue = {};
         state.touchedFields = {};
       })
