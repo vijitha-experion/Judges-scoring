@@ -1,7 +1,7 @@
 import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
 
-const Datepickers = ({ setFieldValues, fieldValues }: any) => {
-  const handleChange = (newValue: DateValueType) => {
+const Datepickers = ({ fieldValues, setFieldValues, filteredEvent }: any) => {
+  const handleChange = (newValue: DateValueType | null) => {
     if (newValue) {
       setFieldValues("touchedFields", {
         ...fieldValues?.touchedFields,
@@ -11,13 +11,13 @@ const Datepickers = ({ setFieldValues, fieldValues }: any) => {
         "startDate",
         newValue.startDate
           ? new Date(newValue.startDate).toISOString().split("T")[0]
-          : null
+          : ""
       );
       setFieldValues(
         "endDate",
         newValue.endDate
           ? new Date(newValue.endDate).toISOString().split("T")[0]
-          : null
+          : ""
       );
     }
   };
@@ -25,8 +25,8 @@ const Datepickers = ({ setFieldValues, fieldValues }: any) => {
   return (
     <Datepicker
       value={{
-        startDate: fieldValues?.startDate || null,
-        endDate: fieldValues?.endDate || null,
+        startDate: fieldValues?.startDate ?? filteredEvent?.startDate ?? null,
+        endDate: fieldValues?.endDate ?? filteredEvent?.endDate ?? null,
       }}
       onChange={handleChange}
       inputClassName="w-48 pl-2 h-8 border-2 border-gray-300 rounded pr-9 text-gray-700"
