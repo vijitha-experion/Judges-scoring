@@ -81,12 +81,14 @@ export default function AddNewProgram({
 
   function checkDisable() {
     return (
-      !programValues?.programname?.trim() ||
-      !programValues?.description?.trim() ||
-      !programValues?.startDate ||
-      !programValues?.time ||
-      !programValues?.judges ||
-      !programValues?.participant ||
+      (!programValues?.programname?.trim() &&
+        !filteredEdit?.programname?.trim()) ||
+      (!programValues?.description?.trim() &&
+        !filteredEdit?.description?.trim()) ||
+      (!programValues?.startDate && !filteredEdit?.startDate) ||
+      (!programValues?.time && !filteredEdit?.time) ||
+      (!programValues?.judges && !filteredEdit?.judges) ||
+      (!programValues?.participant && !filteredEdit?.participant) ||
       !!showWarning(programValues, "programname") ||
       !!showWarning(programValues, "description") ||
       !!showWarning(programValues, "startDate") ||
@@ -103,13 +105,21 @@ export default function AddNewProgram({
 
   let editProgram = JSON.parse(localStorage.getItem("editProgram") || "{}");
   let programsList = JSON.parse(localStorage.getItem("programDetails") || "[]");
-  const filteredEdit = editProgram.programname
-    ? programsList.find(
-        (item: ProgramType) => item.programname === editProgram.programname
-      )
-    : {};
+  const filteredEdit = programsList.find(
+    (item: ProgramType) => item.programname === editProgram.programname
+  );
 
-  console.log(filteredEdit, "filteredEdit");
+  function onEditProgram() {
+    const updatedProgram = { ...filteredEdit, ...programValues };
+    const newEventArray = programsList.map((program: ProgramType) =>
+      program.programname === filteredEdit.programname
+        ? updatedProgram
+        : program
+    );
+    localStorage.setItem("programDetails", JSON.stringify(newEventArray));
+    localStorage.removeItem("editProgram");
+    handleClose();
+  }
 
   return (
     <>
@@ -137,12 +147,15 @@ export default function AddNewProgram({
                     <input
                       type="text"
                       id="programname"
-                      className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
+                      className={`w-64 border-2 h-8 border-gray-300 rounded pl-2 ${
+                        filteredEdit ? "text-gray-400" : "text-gray-700"
+                      }`}
                       value={
                         programValues?.programname ??
                         filteredEdit?.programname ??
                         ""
                       }
+                      disabled={filteredEdit}
                       onChange={(e) =>
                         setProgramValues("programname", e.target.value)
                       }
@@ -159,6 +172,7 @@ export default function AddNewProgram({
                     <Datepickers
                       fieldValues={programValues}
                       setFieldValues={setProgramValues}
+                      filteredEvent={filteredEdit}
                     />
                     {showWarning(programValues, "startDate") && (
                       <p className="text-red-500 text-sm">{dateWarning}</p>
@@ -190,10 +204,9 @@ export default function AddNewProgram({
                   <div className="flex flex-col">
                     <label htmlFor="time">Time</label>
                     <TimePickers
-                      fieldValues={
-                        programValues?.time ?? filteredEdit?.time ?? ""
-                      }
+                      fieldValues={programValues}
                       setFieldValues={setProgramValues}
+                      filteredEvent={filteredEdit}
                     />
                     {showWarning(programValues, "time") && (
                       <p className="text-red-500 text-sm">{timeWarning}</p>
@@ -207,6 +220,10 @@ export default function AddNewProgram({
                     id="judges"
                     setSelectedOptions={(e) => {
                       setProgramValues("judges", e);
+                      setProgramValues("touchedFields", {
+                        ...programValues?.touchedFields,
+                        judges: true,
+                      });
                     }}
                     value={programValues?.judges ?? filteredEdit?.judges ?? []}
                     isSearchable={true}
@@ -223,6 +240,10 @@ export default function AddNewProgram({
                     id="participant"
                     setSelectedOptions={(e) => {
                       setProgramValues("participant", e);
+                      setProgramValues("touchedFields", {
+                        ...programValues?.touchedFields,
+                        participant: true,
+                      });
                     }}
                     value={
                       programValues?.participant ??
@@ -252,7 +273,7 @@ export default function AddNewProgram({
                       : "bg-indigo-600 text-white hover:bg-indigo-500"
                   }`}
                   disabled={checkDisable()}
-                  onClick={onCreateNewProgram}
+                  onClick={editProgram ? onEditProgram : onCreateNewProgram}
                 >
                   Submit
                 </Button>

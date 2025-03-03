@@ -39,12 +39,13 @@ export const useAddProgram = create<any>()((set, get) => ({
       if (isDuplicate) return "duplicate";
     }
 
-    if (field === "description")
-      return !program?.description?.trim() ? true : false;
-    if (field === "startDate") return !program?.startDate ? true : false;
-    if (field === "time") return !program?.time ? true : false;
-    if (field === "judges") return !program?.judges ? true : false;
-    if (field === "participant") return !program?.participant ? true : false;
+    if (field === "description") return !program?.description?.trim();
+    if (field === "startDate") return !program?.startDate;
+    if (field === "time") return !program?.time;
+    if (field === "judges")
+      return !program?.judges || program?.judges.length === 0;
+    if (field === "participant")
+      return !program?.participant || program?.participant.length === 0;
 
     return false;
   },
