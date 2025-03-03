@@ -39,7 +39,7 @@ export function ParticipantsDetails(): ReactElement {
         currentPage={1}
         totalPages={3}
         onPageChange={(page) => console.log("Go to page:", page)}
-        onRowClick={null}
+        onRowClick={() => {}}
         showActions={false}
         onDelete={null}
         onEdit={null}
@@ -51,7 +51,7 @@ export function ParticipantsDetails(): ReactElement {
         currentPage={1}
         totalPages={3}
         onPageChange={(page) => console.log("Go to page:", page)}
-        onRowClick={null}
+        onRowClick={() => {}}
         showActions={false}
         onDelete={null}
         onEdit={null}
