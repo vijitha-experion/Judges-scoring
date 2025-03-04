@@ -8,9 +8,9 @@ import {
   nameWarning,
   addressWarning,
   positionWarning,
-} from "../Utils/warning";
-import { useJudges } from "../Store/judgesStore";
-import { JudgesType } from "../Types/judgesType";
+} from "../../Utils/warning";
+import { useJudges } from "../../Store/judgesStore";
+import { JudgesType } from "../../Types/judgesType";
 
 type AddEventType = {
   isOpen: boolean;
@@ -33,14 +33,17 @@ export default function AddJudge({
   const warningType = showWarning(JudgesValue, "phone");
 
   function addNewJudge() {
-    console.log("JudgesValue", JudgesValue);
-    console.log("JudgesValue");
     let existingJudges = JSON.parse(
       localStorage.getItem("judgesDetails") || "[]"
     );
     let JudgesArray = Array.isArray(existingJudges) ? existingJudges : [];
     JudgesArray.push(JudgesValue);
     localStorage.setItem("judgesDetails", JSON.stringify(JudgesArray));
+    const newData = JudgesArray.map((judge: JudgesType) => ({
+      value: judge.phone,
+      label: judge.judge,
+    }));
+    localStorage.setItem("judgesList", JSON.stringify(newData));
     handleClose();
     clearJudgesValue();
   }

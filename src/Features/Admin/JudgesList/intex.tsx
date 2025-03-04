@@ -3,7 +3,7 @@ import { ReactElement, useCallback, useState } from "react";
 import { Button } from "@headlessui/react";
 
 import { TableGrid } from "../../../components/Grid/intex";
-import AddJudge from "./components/addJudge";
+import AddJudge from "./components/AddJudge/addJudge";
 import { DialogBox } from "../../../components/Dialog/intext";
 
 import { judgesListHead } from "./Utils/tableHead";
