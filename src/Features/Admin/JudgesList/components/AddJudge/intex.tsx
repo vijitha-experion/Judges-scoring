@@ -8,6 +8,7 @@ import {
   nameWarning,
   addressWarning,
   positionWarning,
+  incorrectPattern,
 } from "../../Utils/warning";
 import { useJudges } from "../../Store/judgesStore";
 import { JudgesType } from "../../Types/judgesType";
@@ -135,6 +136,9 @@ export default function AddJudge({
                     )}
                     {warningType === "duplicate" && (
                       <p className="text-red-500 text-sm">{phoneDuplicate}</p>
+                    )}
+                    {warningType === "pattern" && (
+                      <p className="text-red-500 text-sm">{incorrectPattern}</p>
                     )}
                   </div>
                 </div>

@@ -34,7 +34,7 @@ function ReactSelect({
       menuPlacement={menuPlacement}
       components={components}
       value={value}
-      noOptionsMessage={() => "No data available"}
+      noOptionsMessage={() => noDataMessage}
     />
   );
 }

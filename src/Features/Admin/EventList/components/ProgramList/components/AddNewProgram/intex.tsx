@@ -59,16 +59,6 @@ export default function AddNewProgram({
     clearProgramValues();
   }
 
-  const participantOptions = [
-    { value: "Ramu", label: "Ramu" },
-    { value: "Latha", label: "Latha" },
-    { value: "Deepthi", label: "Deepthi" },
-    { value: "Neeli", label: "Neeli" },
-    { value: "Thira", label: "Thira" },
-    { value: "Hari", label: "Hari" },
-    { value: "Jaasi", label: "Jaasi" },
-  ];
-
   function checkDisable() {
     return (
       (!programValues?.programname?.trim() &&
@@ -111,6 +101,9 @@ export default function AddNewProgram({
     handleClose();
   }
   const judgesList = JSON.parse(localStorage.getItem("judgesList") || "[]");
+  const participantList = JSON.parse(
+    localStorage.getItem("participantList") || "[]"
+  );
   return (
     <>
       <Dialog
@@ -231,7 +224,7 @@ export default function AddNewProgram({
                 <div className="flex flex-col gap-1">
                   <label htmlFor="participant">Participant names</label>
                   <ReactSelect
-                    options={participantOptions}
+                    options={participantList}
                     id="participant"
                     setSelectedOptions={(e) => {
                       setProgramValues("participant", e);
@@ -248,9 +241,7 @@ export default function AddNewProgram({
                     isSearchable={true}
                     menuPlacement="top"
                     noDataMessage={
-                      participantOptions.length === 0
-                        ? "You does not add participant in the participantList"
-                        : ""
+                      "You does not add participant in the participantList"
                     }
                   />
                   {showWarning(programValues, "participant") && (
