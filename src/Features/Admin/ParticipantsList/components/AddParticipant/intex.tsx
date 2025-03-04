@@ -49,9 +49,9 @@ export default function AddParticipant({
       "ParticipantDetails",
       JSON.stringify(participantArray)
     );
-    const newData = participantArray.map((participant: ParticipantType) => ({
+    const newData = participantArray.map((participant: ParticipantType, index: number) => ({
       value: participant.phone,
-      label: participant.participant,
+      label: `${participant.participant}-(ParticipantID-${index + 1})`,
     }));
     localStorage.setItem("participantList", JSON.stringify(newData));
     handleClose();

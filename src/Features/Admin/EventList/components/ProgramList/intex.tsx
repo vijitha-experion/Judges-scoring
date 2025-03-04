@@ -31,8 +31,8 @@ export function ProgramList(): ReactElement {
 
   let formattedProgramsList = eventFilterProgram.map((program: any) => ({
     ...program,
-    judges: program.judges?.[0]?.value || "",
-    participant: program.participant?.[0]?.value || "",
+    judges: program.judges?.[0]?.label || "",
+    participant: program.participant?.[0]?.label || "",
   }));
 
   function open() {

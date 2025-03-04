@@ -40,9 +40,9 @@ export default function AddJudge({
     let JudgesArray = Array.isArray(existingJudges) ? existingJudges : [];
     JudgesArray.push(judgesValue);
     localStorage.setItem("judgesDetails", JSON.stringify(JudgesArray));
-    const newData = JudgesArray.map((judge: JudgesType) => ({
+    const newData = JudgesArray.map((judge: JudgesType, index: number) => ({
       value: judge.phone,
-      label: judge.judge,
+      label: `${judge.judge}-(JudgeID-${index + 1})`,
     }));
     localStorage.setItem("judgesList", JSON.stringify(newData));
     handleClose();

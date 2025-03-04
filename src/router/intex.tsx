@@ -16,7 +16,7 @@ function Router() {
         <Route path="/" element={<EventList />} />
         <Route path="/judgesList" element={<JudgesList />} />
         <Route path="/participantsList" element={<ParticipantsList />} />
-        <Route path="/joinRoom" element={<JoinRoom />} />
+        <Route path="user/joinRoom" element={<JoinRoom />} />
         <Route path="/joinRoom" element={<JoinRoom />} />
         <Route path="/programList" element={<ProgramList />} />
         <Route path="/participantsDetails" element={<ParticipantsDetails />} />
