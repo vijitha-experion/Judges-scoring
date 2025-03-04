@@ -8,79 +8,100 @@ import {
   nameWarning,
   addressWarning,
   positionWarning,
+  incorrectPattern,
 } from "../../Utils/warning";
-import { useJudges } from "../../Store/judgesStore";
-import { JudgesType } from "../../Types/judgesType";
+import { useParticipant } from "../../Store/participantStore";
+import { ParticipantType } from "../../Types/participantType";
 
-type AddJudgesType = {
+type AddParticipantType = {
   isOpen: boolean;
   handleClose: () => void;
 };
 
-export default function AddJudge({
+export default function AddParticipant({
   isOpen,
   handleClose,
-}: AddJudgesType): ReactElement {
-  const judgesValue = useJudges(useCallback((state) => state.judgesValue, []));
-  const setJudgesValue = useJudges(
-    useCallback((state) => state.setJudgesValue, [])
+}: AddParticipantType): ReactElement {
+  const participantValue = useParticipant(
+    useCallback((state) => state.participantValue, [])
   );
-  const clearJudgesValue = useJudges(
-    useCallback((state) => state.clearJudgesValue, [])
+  const setParticipantValue = useParticipant(
+    useCallback((state) => state.setParticipantValue, [])
+  );
+  const clearParticipantValue = useParticipant(
+    useCallback((state) => state.clearParticipantValue, [])
   );
 
-  const showWarning = useJudges(useCallback((state) => state.showWarning, []));
-  const warningType = showWarning(judgesValue, "phone");
+  const showWarning = useParticipant(
+    useCallback((state) => state.showWarning, [])
+  );
+  const warningType = showWarning(participantValue, "phone");
 
-  function addNewJudge() {
-    let existingJudges = JSON.parse(
-      localStorage.getItem("judgesDetails") || "[]"
+  function addParticipant() {
+    let existingParticipant = JSON.parse(
+      localStorage.getItem("ParticipantDetails") || "[]"
     );
-    let JudgesArray = Array.isArray(existingJudges) ? existingJudges : [];
-    JudgesArray.push(judgesValue);
-    localStorage.setItem("judgesDetails", JSON.stringify(JudgesArray));
-    const newData = JudgesArray.map((judge: JudgesType) => ({
-      value: judge.phone,
-      label: judge.judge,
+    let participantArray = Array.isArray(existingParticipant)
+      ? existingParticipant
+      : [];
+    participantArray.push(participantValue);
+    localStorage.setItem(
+      "ParticipantDetails",
+      JSON.stringify(participantArray)
+    );
+    const newData = participantArray.map((participant: ParticipantType) => ({
+      value: participant.phone,
+      label: participant.participant,
     }));
-    localStorage.setItem("judgesList", JSON.stringify(newData));
+    localStorage.setItem("participantList", JSON.stringify(newData));
     handleClose();
-    clearJudgesValue();
+    clearParticipantValue();
   }
 
   function checkDisable() {
     return (
-      (!judgesValue?.judge?.trim() && !filteredJudge?.judge?.trim()) ||
-      (!judgesValue?.phone && !filteredJudge?.phone) ||
-      (!judgesValue?.address?.trim() && !filteredJudge?.address?.trim()) ||
-      (!judgesValue?.position?.trim() && !filteredJudge?.position?.trim()) ||
-      showWarning(judgesValue, "judge") ||
-      showWarning(judgesValue, "phone") ||
-      showWarning(judgesValue, "address") ||
-      showWarning(judgesValue, "position")
+      (!participantValue?.participant?.trim() &&
+        !filteredParticipant?.participant?.trim()) ||
+      (!participantValue?.phone && !filteredParticipant?.phone) ||
+      (!participantValue?.address?.trim() &&
+        !filteredParticipant?.address?.trim()) ||
+      (!participantValue?.position?.trim() &&
+        !filteredParticipant?.position?.trim()) ||
+      showWarning(participantValue, "participant") ||
+      showWarning(participantValue, "phone") ||
+      showWarning(participantValue, "address") ||
+      showWarning(participantValue, "position")
     );
   }
 
   function onCancel() {
     handleClose();
-    clearJudgesValue();
+    clearParticipantValue();
   }
 
-  const editingJudge = JSON.parse(localStorage.getItem("editJudge") || "null");
-  const existingJudges = JSON.parse(
-    localStorage.getItem("judgesDetails") || "[]"
+  const editingParticipant = JSON.parse(
+    localStorage.getItem("editParticipant") || "null"
   );
-  const filteredJudge = existingJudges.find(
-    (item: JudgesType) => item?.phone === editingJudge?.phone
+  const existingParticipant = JSON.parse(
+    localStorage.getItem("ParticipantDetails") || "[]"
+  );
+  const filteredParticipant = existingParticipant.find(
+    (item: ParticipantType) => item?.phone === editingParticipant?.phone
   );
 
-  function onEditJugde() {
-    const updatedJudge = { ...filteredJudge, ...judgesValue };
-    const newJudgeArray = existingJudges.map((judge: JudgesType) =>
-      judge?.phone === filteredJudge?.phone ? updatedJudge : judge
+  function onEditParticipant() {
+    const updatedParticipant = { ...filteredParticipant, ...participantValue };
+    const newParticipantArray = existingParticipant.map(
+      (participant: ParticipantType) =>
+        participant?.phone === filteredParticipant?.phone
+          ? updatedParticipant
+          : participant
     );
-    localStorage.setItem("judgesDetails", JSON.stringify(newJudgeArray));
-    localStorage.removeItem("editJudge");
+    localStorage.setItem(
+      "ParticipantDetails",
+      JSON.stringify(newParticipantArray)
+    );
+    localStorage.removeItem("editParticipant");
     handleClose();
   }
 
@@ -100,23 +121,27 @@ export default function AddJudge({
               className="w-full max-w-xl rounded-xl bg-white backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
             >
               <DialogTitle as="h3" className="text-lg font-semibold p-6 pb-3">
-                {editingJudge ? "Edit Judge" : "Add Judge"}
+                {editingParticipant ? "Edit Participant" : "Add Participant"}
               </DialogTitle>
               <hr />
               <div className="flex flex-col gap-7 p-6">
                 <div className="flex justify-between">
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="judge">Judge Name</label>
+                    <label htmlFor="participant">Participant Name</label>
                     <input
                       type="text"
-                      id="judge"
+                      id="participant"
                       className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
-                      value={judgesValue?.judge ?? filteredJudge?.judge ?? ""}
+                      value={
+                        participantValue?.participant ??
+                        filteredParticipant?.participant ??
+                        ""
+                      }
                       onChange={(e) => {
-                        setJudgesValue("judge", e.target.value);
+                        setParticipantValue("participant", e.target.value);
                       }}
                     />
-                    {showWarning(judgesValue, "judge") && (
+                    {showWarning(participantValue, "participant") && (
                       <p className="text-red-500 text-sm">{nameWarning}</p>
                     )}
                   </div>
@@ -125,16 +150,27 @@ export default function AddJudge({
                     <input
                       type="number"
                       className={`w-64 border-2 h-8 border-gray-300 rounded pl-2 
-                        ${editingJudge ? "text-gray-400" : "text-gray-700"} `}
-                      value={judgesValue?.phone ?? filteredJudge?.phone ?? ""}
-                      onChange={(e) => setJudgesValue("phone", e.target.value)}
-                      disabled={filteredJudge}
+                        ${
+                          editingParticipant ? "text-gray-400" : "text-gray-700"
+                        } `}
+                      value={
+                        participantValue?.phone ??
+                        filteredParticipant?.phone ??
+                        ""
+                      }
+                      onChange={(e) =>
+                        setParticipantValue("phone", e.target.value)
+                      }
+                      disabled={filteredParticipant}
                     />
                     {warningType === "empty" && (
                       <p className="text-red-500 text-sm">{phoneWarning}</p>
                     )}
                     {warningType === "duplicate" && (
                       <p className="text-red-500 text-sm">{phoneDuplicate}</p>
+                    )}
+                    {warningType === "pattern" && (
+                      <p className="text-red-500 text-sm">{incorrectPattern}</p>
                     )}
                   </div>
                 </div>
@@ -145,13 +181,15 @@ export default function AddJudge({
                       type="text"
                       className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
                       value={
-                        judgesValue?.address ?? filteredJudge?.address ?? ""
+                        participantValue?.address ??
+                        filteredParticipant?.address ??
+                        ""
                       }
                       onChange={(e) =>
-                        setJudgesValue("address", e.target.value)
+                        setParticipantValue("address", e.target.value)
                       }
                     />
-                    {showWarning(judgesValue, "address") && (
+                    {showWarning(participantValue, "address") && (
                       <p className="text-red-500 text-sm">{addressWarning}</p>
                     )}
                   </div>
@@ -161,13 +199,15 @@ export default function AddJudge({
                       type="text"
                       className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
                       value={
-                        judgesValue?.position ?? filteredJudge?.position ?? ""
+                        participantValue?.position ??
+                        filteredParticipant?.position ??
+                        ""
                       }
                       onChange={(e) =>
-                        setJudgesValue("position", e.target.value)
+                        setParticipantValue("position", e.target.value)
                       }
                     />
-                    {showWarning(judgesValue, "position") && (
+                    {showWarning(participantValue, "position") && (
                       <p className="text-red-500 text-sm">{positionWarning}</p>
                     )}
                   </div>
@@ -188,9 +228,11 @@ export default function AddJudge({
                       : "bg-indigo-500 text-white hover:bg-indigo-600"
                   }`}
                   disabled={checkDisable()}
-                  onClick={editingJudge ? onEditJugde : addNewJudge}
+                  onClick={
+                    editingParticipant ? onEditParticipant : addParticipant
+                  }
                 >
-                  {editingJudge ? "Update" : "Add"}
+                  {editingParticipant ? "Update" : "Add"}
                 </Button>
               </div>
             </DialogPanel>
