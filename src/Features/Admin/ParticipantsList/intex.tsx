@@ -1,24 +1,39 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useCallback, useState } from "react";
 
 import { Button } from "@headlessui/react";
 
 import { TableGrid } from "../../../components/Grid/intex";
+import AddParticipant from "./components/AddParticipant/intex";
 
 import { ParticipantList } from "../../../data";
 import { participantListHead } from "./Utils/participantTable";
+import { ParticipantType } from "./Types/participantType";
+import { useParticipant } from "./Store/participantStore";
 
 export function ParticipantsList(): ReactElement {
   let [isOpen, setIsOpen] = useState(false);
 
+  const existingParticipant = JSON.parse(
+    localStorage.getItem("ParticipantDetails") || "[]"
+  );
+  const clearParticipantValue = useParticipant(
+    useCallback((state) => state.clearParticipantValue, [])
+  );
+
   function open() {
+    clearParticipantValue();
     setIsOpen(true);
   }
 
   function handleClose() {
+    clearParticipantValue();
     setIsOpen(false);
   }
 
-  function onEdit() {}
+  function onEdit(row: ParticipantType) {
+    localStorage.setItem("editParticipant", JSON.stringify(row));
+    setIsOpen(true);
+  }
   function onDelete() {}
 
   return (
@@ -29,19 +44,20 @@ export function ParticipantsList(): ReactElement {
           onClick={open}
           className="bg-indigo-600 py-1 px-5 rounded-md text-white"
         >
-          Add
+          Add Participant
         </Button>
       </div>
       <TableGrid
         columns={participantListHead}
-        data={ParticipantList}
+        data={existingParticipant}
         currentPage={1}
         totalPages={3}
         onPageChange={(page) => console.log("Go to page:", page)}
-        onRowClick={null}
+        onRowClick={() => {}}
         onDelete={onDelete}
         onEdit={onEdit}
       />{" "}
+      {isOpen && <AddParticipant isOpen={isOpen} handleClose={handleClose} />}
     </div>
   );
 }

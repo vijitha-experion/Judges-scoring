@@ -23,23 +23,23 @@ export const useJudges = create<any>()((set, get) => ({
       })
     );
   },
-  showWarning(Judge: JudgesType, field: string): string | boolean {
+  showWarning(judge: JudgesType, field: string): string | boolean {
     const { touchedFields } = get();
     if (!touchedFields[field]) return false;
 
     if (field === "eventname") {
-      if (!Judge?.phone) return "empty";
+      if (!judge?.phone) return "empty";
 
-      let existingEvents: JudgesType[] = JSON.parse(
+      let existingJudges: JudgesType[] = JSON.parse(
         localStorage.getItem("judgeDetails") || "[]"
       );
-      const isDuplicate = existingEvents.some((e) => e?.phone === Judge?.phone);
+      const isDuplicate = existingJudges.some((e) => e?.phone === judge?.phone);
       if (isDuplicate) return "duplicate";
     }
 
-    if (field === "judge") return !Judge?.judge?.trim() ? true : false;
-    if (field === "address") return !Judge?.address ? true : false;
-    if (field === "position") return !Judge?.position ? true : false;
+    if (field === "judge") return !judge?.judge?.trim() ? true : false;
+    if (field === "address") return !judge?.address ? true : false;
+    if (field === "position") return !judge?.position ? true : false;
 
     return false;
   },
