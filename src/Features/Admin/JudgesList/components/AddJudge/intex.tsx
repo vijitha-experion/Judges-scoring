@@ -21,7 +21,7 @@ export default function AddJudge({
   isOpen,
   handleClose,
 }: AddEventType): ReactElement {
-  const JudgesValue = useJudges(useCallback((state) => state.JudgesValue, []));
+  const judgesValue = useJudges(useCallback((state) => state.judgesValue, []));
   const setJudgesValue = useJudges(
     useCallback((state) => state.setJudgesValue, [])
   );
@@ -30,14 +30,14 @@ export default function AddJudge({
   );
 
   const showWarning = useJudges(useCallback((state) => state.showWarning, []));
-  const warningType = showWarning(JudgesValue, "phone");
+  const warningType = showWarning(judgesValue, "phone");
 
   function addNewJudge() {
     let existingJudges = JSON.parse(
       localStorage.getItem("judgesDetails") || "[]"
     );
     let JudgesArray = Array.isArray(existingJudges) ? existingJudges : [];
-    JudgesArray.push(JudgesValue);
+    JudgesArray.push(judgesValue);
     localStorage.setItem("judgesDetails", JSON.stringify(JudgesArray));
     const newData = JudgesArray.map((judge: JudgesType) => ({
       value: judge.phone,
@@ -50,14 +50,14 @@ export default function AddJudge({
 
   function checkDisable() {
     return (
-      (!JudgesValue?.judge?.trim() && !filteredJudge?.judge?.trim()) ||
-      (!JudgesValue?.phone && !filteredJudge?.phone) ||
-      (!JudgesValue?.address?.trim() && !filteredJudge?.address?.trim()) ||
-      (!JudgesValue?.position?.trim() && !filteredJudge?.position?.trim()) ||
-      showWarning(JudgesValue, "judge") ||
-      showWarning(JudgesValue, "phone") ||
-      showWarning(JudgesValue, "address") ||
-      showWarning(JudgesValue, "position")
+      (!judgesValue?.judge?.trim() && !filteredJudge?.judge?.trim()) ||
+      (!judgesValue?.phone && !filteredJudge?.phone) ||
+      (!judgesValue?.address?.trim() && !filteredJudge?.address?.trim()) ||
+      (!judgesValue?.position?.trim() && !filteredJudge?.position?.trim()) ||
+      showWarning(judgesValue, "judge") ||
+      showWarning(judgesValue, "phone") ||
+      showWarning(judgesValue, "address") ||
+      showWarning(judgesValue, "position")
     );
   }
 
@@ -75,7 +75,7 @@ export default function AddJudge({
   );
 
   function onEditJugde() {
-    const updatedJudge = { ...filteredJudge, ...JudgesValue };
+    const updatedJudge = { ...filteredJudge, ...judgesValue };
     const newJudgeArray = existingJudges.map((judge: JudgesType) =>
       judge?.phone === filteredJudge?.phone ? updatedJudge : judge
     );
@@ -111,12 +111,12 @@ export default function AddJudge({
                       type="text"
                       id="judge"
                       className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
-                      value={JudgesValue?.judge ?? filteredJudge?.judge ?? ""}
+                      value={judgesValue?.judge ?? filteredJudge?.judge ?? ""}
                       onChange={(e) => {
                         setJudgesValue("judge", e.target.value);
                       }}
                     />
-                    {showWarning(JudgesValue, "judge") && (
+                    {showWarning(judgesValue, "judge") && (
                       <p className="text-red-500 text-sm">{nameWarning}</p>
                     )}
                   </div>
@@ -126,7 +126,7 @@ export default function AddJudge({
                       type="number"
                       className={`w-64 border-2 h-8 border-gray-300 rounded pl-2 
                         ${editingJudge ? "text-gray-400" : "text-gray-700"} `}
-                      value={JudgesValue?.phone ?? filteredJudge?.phone ?? ""}
+                      value={judgesValue?.phone ?? filteredJudge?.phone ?? ""}
                       onChange={(e) => setJudgesValue("phone", e.target.value)}
                       disabled={filteredJudge}
                     />
@@ -145,13 +145,13 @@ export default function AddJudge({
                       type="text"
                       className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
                       value={
-                        JudgesValue?.address ?? filteredJudge?.address ?? ""
+                        judgesValue?.address ?? filteredJudge?.address ?? ""
                       }
                       onChange={(e) =>
                         setJudgesValue("address", e.target.value)
                       }
                     />
-                    {showWarning(JudgesValue, "address") && (
+                    {showWarning(judgesValue, "address") && (
                       <p className="text-red-500 text-sm">{addressWarning}</p>
                     )}
                   </div>
@@ -161,13 +161,13 @@ export default function AddJudge({
                       type="text"
                       className="w-64 border-2 h-8 border-gray-300 rounded pl-2 text-gray-700"
                       value={
-                        JudgesValue?.position ?? filteredJudge?.position ?? ""
+                        judgesValue?.position ?? filteredJudge?.position ?? ""
                       }
                       onChange={(e) =>
                         setJudgesValue("position", e.target.value)
                       }
                     />
-                    {showWarning(JudgesValue, "position") && (
+                    {showWarning(judgesValue, "position") && (
                       <p className="text-red-500 text-sm">{positionWarning}</p>
                     )}
                   </div>

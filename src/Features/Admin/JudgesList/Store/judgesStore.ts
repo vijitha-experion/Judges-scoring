@@ -4,12 +4,12 @@ import { produce } from "immer";
 import { JudgesType } from "../Types/judgesType";
 
 export const useJudges = create<any>()((set, get) => ({
-  JudgesValue: {},
+  judgesValue: {},
   touchedFields: {},
   setJudgesValue: (key: string, value: any) => {
     set(
       produce((state: any) => {
-        state.JudgesValue = { ...get().JudgesValue, [key]: value };
+        state.judgesValue = { ...get().judgesValue, [key]: value };
         state.touchedFields[key] = true;
       })
     );
@@ -18,7 +18,7 @@ export const useJudges = create<any>()((set, get) => ({
     set(
       produce((state: any) => {
         localStorage.removeItem("editJudge");
-        state.JudgesValue = {};
+        state.judgesValue = {};
         state.touchedFields = {};
       })
     );
