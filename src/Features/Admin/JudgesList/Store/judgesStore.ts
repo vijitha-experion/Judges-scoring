@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { produce } from "immer";
 
 import { JudgesType } from "../Types/judgesType";
+import { phonePattern } from "../Utils/warning";
 
 export const useJudges = create<any>()((set, get) => ({
   judgesValue: {},
@@ -27,7 +28,7 @@ export const useJudges = create<any>()((set, get) => ({
     const { touchedFields } = get();
     if (!touchedFields[field]) return false;
 
-    if (field === "eventname") {
+    if (field === "phone") {  
       if (!judge?.phone) return "empty";
 
       let existingJudges: JudgesType[] = JSON.parse(
@@ -35,6 +36,9 @@ export const useJudges = create<any>()((set, get) => ({
       );
       const isDuplicate = existingJudges.some((e) => e?.phone === judge?.phone);
       if (isDuplicate) return "duplicate";
+      if (!phonePattern.test(judge?.phone?.toString())) {
+        return "pattern";
+      }
     }
 
     if (field === "judge") return !judge?.judge?.trim() ? true : false;
