@@ -8,6 +8,7 @@ type MultiSelectInput = {
   isSearchable: boolean;
   menuPlacement: any;
   value?: any;
+  noDataMessage?: string;
 };
 
 function ReactSelect({
@@ -18,6 +19,7 @@ function ReactSelect({
   isSearchable,
   menuPlacement,
   value,
+  noDataMessage = "No data available",
 }: MultiSelectInput) {
   return (
     <Select
@@ -32,6 +34,7 @@ function ReactSelect({
       menuPlacement={menuPlacement}
       components={components}
       value={value}
+      noOptionsMessage={() => "No data available"}
     />
   );
 }

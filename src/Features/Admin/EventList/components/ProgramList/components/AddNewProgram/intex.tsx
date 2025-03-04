@@ -93,10 +93,10 @@ export default function AddNewProgram({
     handleClose();
   }
 
-  let editProgram = JSON.parse(localStorage.getItem("editProgram") || "{}");
+  let editProgram = JSON.parse(localStorage.getItem("editProgram") || "null");
   let programsList = JSON.parse(localStorage.getItem("programDetails") || "[]");
   const filteredEdit = programsList.find(
-    (item: ProgramType) => item.programname === editProgram.programname
+    (item: ProgramType) => item?.programname === editProgram?.programname
   );
 
   function onEditProgram() {
@@ -218,6 +218,11 @@ export default function AddNewProgram({
                     value={programValues?.judges ?? filteredEdit?.judges ?? []}
                     isSearchable={true}
                     menuPlacement="top"
+                    noDataMessage={
+                      judgesList.length === 0
+                        ? "You does not add judges in the judgesList"
+                        : ""
+                    }
                   />
                   {showWarning(programValues, "judges") && (
                     <p className="text-red-500 text-sm">{judgesWarning}</p>
@@ -242,6 +247,11 @@ export default function AddNewProgram({
                     }
                     isSearchable={true}
                     menuPlacement="top"
+                    noDataMessage={
+                      participantOptions.length === 0
+                        ? "You does not add participant in the participantList"
+                        : ""
+                    }
                   />
                   {showWarning(programValues, "participant") && (
                     <p className="text-red-500 text-sm">{participantWarning}</p>

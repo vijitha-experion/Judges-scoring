@@ -69,18 +69,18 @@ export default function AddEvent({
     clearEventValue();
   }
 
-  const editEvent = JSON.parse(localStorage.getItem("editEvent") || "{}");
+  const editEvent = JSON.parse(localStorage.getItem("editEvent") || "null");
   const existingEvents = JSON.parse(
     localStorage.getItem("eventDetails") || "[]"
   );
   const filteredEvent = existingEvents.find(
-    (item: EventType) => item.eventname === editEvent.eventname
+    (item: EventType) => item?.eventname === editEvent?.eventname
   );
 
   function onEditEvent() {
     const updatedEvent = { ...filteredEvent, ...eventValue };
     const newEventArray = existingEvents.map((event: EventType) =>
-      event.eventname === filteredEvent.eventname ? updatedEvent : event
+      event?.eventname === filteredEvent?.eventname ? updatedEvent : event
     );
     localStorage.setItem("eventDetails", JSON.stringify(newEventArray));
     localStorage.removeItem("editEvent");
