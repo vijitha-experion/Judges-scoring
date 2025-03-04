@@ -59,16 +59,6 @@ export default function AddNewProgram({
     clearProgramValues();
   }
 
-  const judgesOptions = [
-    { value: "Seetha", label: "Seetha" },
-    { value: "Raj", label: "Raj" },
-    { value: "Aleena", label: "Aleena" },
-    { value: "Geetha", label: "Geetha" },
-    { value: "Priyan", label: "Priyan" },
-    { value: "Vinodh", label: "Vinodh" },
-    { value: "Rari", label: "Rari" },
-  ];
-
   const participantOptions = [
     { value: "Ramu", label: "Ramu" },
     { value: "Latha", label: "Latha" },
@@ -112,7 +102,7 @@ export default function AddNewProgram({
   function onEditProgram() {
     const updatedProgram = { ...filteredEdit, ...programValues };
     const newEventArray = programsList.map((program: ProgramType) =>
-      program.programname === filteredEdit.programname
+      program?.programname === filteredEdit?.programname
         ? updatedProgram
         : program
     );
@@ -120,7 +110,7 @@ export default function AddNewProgram({
     localStorage.removeItem("editProgram");
     handleClose();
   }
-
+  const judgesList = JSON.parse(localStorage.getItem("judgesList") || "[]");
   return (
     <>
       <Dialog
@@ -216,7 +206,7 @@ export default function AddNewProgram({
                 <div className="flex flex-col gap-1">
                   <label htmlFor="judges">Judges names</label>
                   <ReactSelect
-                    options={judgesOptions}
+                    options={judgesList}
                     id="judges"
                     setSelectedOptions={(e) => {
                       setProgramValues("judges", e);
