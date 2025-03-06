@@ -9,4 +9,5 @@ export type ProgramType = {
   participant: [];
   iscompleted: string;
   uniqueCode: string;
+  evaluationPoints: [];
 };
