@@ -7,6 +7,7 @@ import { ParticipantsList } from "../Features/Admin/ParticipantsList/intex";
 import { JoinRoom } from "../Features/User/JoinRoom/intex";
 import { ProgramList } from "../Features/Admin/EventList/components/ProgramList/intex";
 import { ParticipantsDetails } from "../Features/Admin/EventList/components/Participant Details/intex";
+import { JudgesScoringPage } from "../Features/User/JudgesScoringPage";
 
 function Router() {
   return (
@@ -17,7 +18,7 @@ function Router() {
         <Route path="/judgesList" element={<JudgesList />} />
         <Route path="/participantsList" element={<ParticipantsList />} />
         <Route path="user/joinRoom" element={<JoinRoom />} />
-        <Route path="/joinRoom" element={<JoinRoom />} />
+        <Route path="/judgesScoringPage" element={<JudgesScoringPage />} />
         <Route path="/programList" element={<ProgramList />} />
         <Route path="/participantsDetails" element={<ParticipantsDetails />} />
       </Routes>

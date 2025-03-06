@@ -49,19 +49,17 @@ export default function AddNewProgram({
       localStorage.getItem("programDetails") || "[]"
     );
     let programArray = Array.isArray(existingProgram) ? existingProgram : [];
-    let newProgram = { ...programValues, eventName: event };
-    programArray.push(newProgram);
 
-    let existingUniqueCode = JSON.parse(
-      localStorage.getItem("uniqueCode") || "[]"
-    );
     const uniqueCode = `CODE-${
       programValues?.programname
     }-${event}-${programValues?.judges?.map((j: any) => j.label).join(",")}`;
 
-    const newCode = [...existingUniqueCode, uniqueCode];
-    localStorage.setItem("uniqueCode", JSON.stringify(newCode));
-
+    let newProgram = {
+      ...programValues,
+      eventName: event,
+      uniqueCode: uniqueCode,
+    };
+    programArray.push(newProgram);
     localStorage.setItem("programDetails", JSON.stringify(programArray));
     localStorage.removeItem("editProgram");
     handleClose();
