@@ -1,26 +1,43 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useCallback, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import { Button } from "@headlessui/react";
+
 import { TableGrid } from "../../../../../components/Grid/intex";
 import AddEvaluationPoint from "./components/AddEvaluationPoint/intex";
 
+import { ProgramType } from "../ProgramList/Types/intex";
 import { evaluationHead, participantDetailsHead } from "../../Utils/table";
 import { participantDetails } from "../../../../../data";
+import { useEvaluationPoint } from "./store/evaluationPoint";
 
 export function ParticipantsDetails(): ReactElement {
   let [isOpen, setIsOpen] = useState(false);
+
+  const location = useLocation();
+  const program = location.state?.program;
+
+  const clearEvaluationValues = useEvaluationPoint(
+    useCallback((state) => state.clearEvaluationValues, [])
+  );
 
   function open() {
     setIsOpen(true);
   }
 
   function handleClose() {
+    clearEvaluationValues();
     setIsOpen(false);
   }
 
-  let evaluationArray = JSON.parse(
-    localStorage.getItem("EvaluationPoints") || "[]"
+  let existingProgram = JSON.parse(
+    localStorage.getItem("programDetails") || "[]"
   );
+
+  const filteredProgram = existingProgram.find(
+    (item: ProgramType) => item?.programname === program
+  );
+  const evaluationPoints = filteredProgram?.evaluationPoints || [];
 
   return (
     <div className="pl-14 mr-14">
@@ -35,7 +52,7 @@ export function ParticipantsDetails(): ReactElement {
       </div>
       <TableGrid
         columns={evaluationHead}
-        data={evaluationArray}
+        data={evaluationPoints}
         currentPage={1}
         totalPages={3}
         onPageChange={(page) => console.log("Go to page:", page)}

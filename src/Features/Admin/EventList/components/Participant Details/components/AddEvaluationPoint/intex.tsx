@@ -1,6 +1,7 @@
 import { ReactElement, useCallback, useState } from "react";
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useEvaluationPoint } from "../../store/evaluationPoint";
+import { ProgramType } from "../../../ProgramList/Types/intex";
 
 type AddEventType = {
   isOpen: boolean;
@@ -22,14 +23,29 @@ export default function AddEvaluationPoint({
   );
 
   function onCreateNewEvent() {
-    let existingEvaluation = JSON.parse(
-      localStorage.getItem("EvaluationPoints") || "[]"
+    const selectedProgram = JSON.parse(
+      localStorage.getItem("selectedProgram") || "null"
     );
-    let eventsArray = Array.isArray(existingEvaluation)
-      ? existingEvaluation
-      : [];
-    eventsArray.push(evaluationValues);
-    localStorage.setItem("EvaluationPoints", JSON.stringify(eventsArray));
+    let existingProgram = JSON.parse(
+      localStorage.getItem("programDetails") || "[]"
+    );
+
+    if (Array.isArray(existingProgram)) {
+      existingProgram = existingProgram.map((program: ProgramType) =>
+        program.programname === selectedProgram?.programname
+          ? {
+              ...program,
+              evaluationPoints: [
+                ...(program.evaluationPoints || []),
+                evaluationValues,
+              ],
+            }
+          : program
+      );
+    }
+
+    localStorage.setItem("programDetails", JSON.stringify(existingProgram));
+
     handleClose();
     clearEvaluationValues();
   }
