@@ -8,6 +8,7 @@ import { JoinRoom } from "../Features/User/JoinRoom/intex";
 import { ProgramList } from "../Features/Admin/EventList/components/ProgramList/intex";
 import { ParticipantsDetails } from "../Features/Admin/EventList/components/Participant Details/intex";
 import { JudgesScoringPage } from "../Features/User/JudgesScoringPage";
+import { EvaluationPage } from "../Features/User/EvaluationPage/intex";
 
 function Router() {
   return (
@@ -21,6 +22,7 @@ function Router() {
         <Route path="/judgesScoringPage" element={<JudgesScoringPage />} />
         <Route path="/programList" element={<ProgramList />} />
         <Route path="/participantsDetails" element={<ParticipantsDetails />} />
+        <Route path="/evaluationPage" element={<EvaluationPage />} />
       </Routes>
     </div>
   );
