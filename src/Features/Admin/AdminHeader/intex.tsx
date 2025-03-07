@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 
-export function Header(): ReactElement {
+export function AdminHeader(): ReactElement {
   const navigate = useNavigate();
 
   function eventList() {
