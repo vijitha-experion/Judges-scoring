@@ -72,7 +72,7 @@ export function TableGrid({
                     <div className="flex">
                       <p
                         title={row[col.key]}
-                        className="text-sm text-slate-800 w-28 truncate cursor-pointer"
+                        className="text-sm text-slate-800 min-w-fit max-w-7xl truncate cursor-pointer"
                       >
                         {row[col.key]}
                       </p>
@@ -91,7 +91,7 @@ export function TableGrid({
                             <div key={anchorId} className="relative">
                               <div
                                 id={anchorId}
-                                className="border border-gray-100 bg-sky-100 px-2 py-1 rounded-md font-semibold inline-block cursor-pointer"
+                                className="ml-2 border border-gray-100 bg-sky-100 px-2 py-1 rounded-md font-semibold inline-block cursor-pointer"
                               >
                                 + {program.judges.length - 1}
                               </div>
@@ -138,7 +138,7 @@ export function TableGrid({
                             <div key={participantId} className="relative">
                               <div
                                 id={participantId}
-                                className="border border-gray-100 bg-sky-100 px-2 py-1 rounded-md font-semibold inline-block cursor-pointer"
+                                className="ml-2 border border-gray-100 bg-sky-100 px-2 py-1 rounded-md font-semibold inline-block cursor-pointer"
                               >
                                 + {program.participant.length - 1}
                               </div>

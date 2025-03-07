@@ -1,28 +1,46 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+
+import { TableGrid } from "../../../components/Grid/intex";
 
 import { scoreHead } from "./Utils/scoreTableHead";
-import { TableGrid } from "../../../components/Grid/intex";
 import { ParticipantScoreType } from "./Types/participantScore";
 
 export function JudgesScoringPage(): ReactElement {
-  const location = useLocation();
-  const room = location.state?.room;
-  // const existingScore = JSON.parse(
-  //   localStorage.getItem("existingScore") || "[]"
-  // );
-  // const participants = room?.participant?.filter((participant: any) => {
-  //   return participant;
-  // });
+  const [isToast, setIsToast] = useState(false);
+  
   const navigation = useNavigate();
+  const room = JSON.parse(localStorage.getItem("room") || "[]");
+
+  const existingScore = JSON.parse(
+    localStorage.getItem("scoreDetails") || "[]"
+  );
+
   const participantsList = room?.participant?.map((participant: any) => ({
     participantName: participant.label,
     evaluationStatus: "-----",
     score: "-----",
   }));
-  console.log(participantsList, "participantsList");
+
+  const newArray = participantsList?.map((participant: any) => {
+    const existingParticipantScore = existingScore.find(
+      (score: any) => score.participantName === participant.participantName
+    );
+    return existingParticipantScore || participant;
+  });
+
   function onRowClick(row: ParticipantScoreType) {
-    navigation("/evaluationPage", { state: { participant: row } });
+    if (row.evaluationStatus === "Completed") {
+      toast("A participant can be evaluated only once.", {
+        style: { color: "red" },
+      });
+      setIsToast(true);
+    } else {
+      navigation("/evaluationPage", {
+        state: { participant: row },
+      });
+    }
   }
   return (
     <div className="pl-14 mr-14">
@@ -31,7 +49,7 @@ export function JudgesScoringPage(): ReactElement {
       </div>
       <TableGrid
         columns={scoreHead}
-        data={participantsList}
+        data={newArray}
         currentPage={1}
         totalPages={3}
         onPageChange={(page) => console.log("Go to page:", page)}
@@ -40,6 +58,7 @@ export function JudgesScoringPage(): ReactElement {
         onDelete={() => {}}
         onEdit={() => {}}
       />{" "}
+      {isToast ? <ToastContainer /> : null}
     </div>
   );
 }

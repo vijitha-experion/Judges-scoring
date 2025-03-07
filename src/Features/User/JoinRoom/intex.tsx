@@ -45,9 +45,9 @@ export function JoinRoom(): ReactElement {
         item?.eventName === joinValue?.roomName &&
         item?.uniqueCode === joinValue?.password
     );
-
+    localStorage.setItem("room", JSON.stringify(room));
     if (room) {
-      navigate("/judgesScoringPage", { state: { room: room } });
+      navigate("/judgesScoringPage");
       clearJoinValue();
     } else {
       toast("Incorrect room name and password", {
