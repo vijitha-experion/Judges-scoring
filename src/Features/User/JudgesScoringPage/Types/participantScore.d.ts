@@ -1,5 +1,5 @@
 export type ParticipantScoreType = {
     participantName: string;
-    evaluationStatus: boolean;
+    evaluationStatus: string;
     score: number;
 }
