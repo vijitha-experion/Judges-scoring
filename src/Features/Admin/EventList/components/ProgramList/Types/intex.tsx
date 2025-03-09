@@ -8,6 +8,6 @@ export type ProgramType = {
   time: string;
   participant: [];
   iscompleted: string;
-  uniqueCode: string;
+  uniqueCode: [];
   evaluationPoints: [];
 };

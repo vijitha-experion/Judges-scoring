@@ -36,6 +36,8 @@ export function EvaluationPage(): ReactElement {
     );
     const newData = [
       {
+        eventName: room?.eventName,
+        programname: room?.programname,
         participantName: participant?.participantName,
         evaluationStatus: "Completed",
         score: totalScore,
