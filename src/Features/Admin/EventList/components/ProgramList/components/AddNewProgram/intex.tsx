@@ -53,7 +53,7 @@ export default function AddNewProgram({
     const uniqueCode = `CODE-${
       programValues?.programname
     }-${event}-${programValues?.judges?.map((j: any) => j.label).join(",")}`;
-
+    
     let newProgram = {
       ...programValues,
       eventName: event,

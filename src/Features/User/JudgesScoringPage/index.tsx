@@ -9,7 +9,7 @@ import { ParticipantScoreType } from "./Types/participantScore";
 
 export function JudgesScoringPage(): ReactElement {
   const [isToast, setIsToast] = useState(false);
-  
+
   const navigation = useNavigate();
   const room = JSON.parse(localStorage.getItem("room") || "[]");
 
@@ -18,6 +18,8 @@ export function JudgesScoringPage(): ReactElement {
   );
 
   const participantsList = room?.participant?.map((participant: any) => ({
+    eventName: room?.eventName,
+    programname: room?.programname,
     participantName: participant.label,
     evaluationStatus: "-----",
     score: "-----",
@@ -25,7 +27,10 @@ export function JudgesScoringPage(): ReactElement {
 
   const newArray = participantsList?.map((participant: any) => {
     const existingParticipantScore = existingScore.find(
-      (score: any) => score.participantName === participant.participantName
+      (score: ParticipantScoreType) =>
+        score.participantName === participant.participantName &&
+        score.eventName === participant.eventName &&
+        score.programname === participant.programname
     );
     return existingParticipantScore || participant;
   });
