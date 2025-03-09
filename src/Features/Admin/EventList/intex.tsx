@@ -32,7 +32,7 @@ export function EventList(): ReactElement {
   }
 
   function onRowClick(row: EventType) {
-    navigate("/programList", { state: { event: row.eventname } });
+    navigate("/programList", { state: { event: row } });
   }
 
   let eventsArray = JSON.parse(localStorage.getItem("eventDetails") || "[]");
