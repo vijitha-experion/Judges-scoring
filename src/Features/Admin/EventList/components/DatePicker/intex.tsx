@@ -1,6 +1,12 @@
 import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
 
-const Datepickers = ({ fieldValues, setFieldValues, filteredEvent }: any) => {
+const Datepickers = ({
+  fieldValues,
+  setFieldValues,
+  filteredEvent,
+  event,
+}: any) => {
+  console.log(event, "event");
   const handleChange = (newValue: DateValueType | null) => {
     if (newValue) {
       setFieldValues("touchedFields", {
@@ -28,6 +34,8 @@ const Datepickers = ({ fieldValues, setFieldValues, filteredEvent }: any) => {
         startDate: fieldValues?.startDate ?? filteredEvent?.startDate ?? null,
         endDate: fieldValues?.endDate ?? filteredEvent?.endDate ?? null,
       }}
+      minDate={event?.startDate ? new Date(event.startDate) : new Date()}
+      maxDate={event?.endDate ? new Date(event.endDate) : null}
       onChange={handleChange}
       inputClassName="w-48 pl-2 h-8 border-2 border-gray-300 rounded pr-9 text-gray-700"
       toggleClassName="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"

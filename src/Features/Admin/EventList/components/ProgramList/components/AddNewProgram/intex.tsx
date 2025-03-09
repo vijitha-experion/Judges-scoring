@@ -21,7 +21,7 @@ import { ProgramType } from "../../Types/intex";
 type AddNewProgramType = {
   isOpen: boolean;
   handleClose: () => void;
-  event: string;
+  event: any;
 };
 
 export default function AddNewProgram({
@@ -43,7 +43,7 @@ export default function AddNewProgram({
   );
 
   const warningType = showWarning(programValues, "programname");
-
+  console.log(event, "event");
   function onCreateNewProgram() {
     let existingProgram = JSON.parse(
       localStorage.getItem("programDetails") || "[]"
@@ -53,10 +53,10 @@ export default function AddNewProgram({
     const uniqueCode = `CODE-${
       programValues?.programname
     }-${event}-${programValues?.judges?.map((j: any) => j.label).join(",")}`;
-    
+
     let newProgram = {
       ...programValues,
-      eventName: event,
+      eventName: event.eventname,
       uniqueCode: uniqueCode,
     };
     programArray.push(newProgram);
@@ -163,6 +163,7 @@ export default function AddNewProgram({
                       fieldValues={programValues}
                       setFieldValues={setProgramValues}
                       filteredEvent={filteredEdit}
+                      event={event}
                     />
                     {showWarning(programValues, "startDate") && (
                       <p className="text-red-500 text-sm">{dateWarning}</p>

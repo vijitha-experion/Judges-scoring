@@ -26,7 +26,7 @@ export function ProgramList(): ReactElement {
 
   let programsList = JSON.parse(localStorage.getItem("programDetails") || "[]");
   const eventFilterProgram = programsList.filter(
-    (item: ProgramType) => item.eventName === event
+    (item: ProgramType) => item.eventName === event.eventname
   );
 
   let formattedProgramsList = eventFilterProgram.map((program: any) => ({
