@@ -55,7 +55,7 @@ export function EventList(): ReactElement {
   function onConfirmDelete() {
     if (selectedRow) {
       const updatedEvents = eventsArray.filter(
-        (event: EventType) => event.eventname !== selectedRow?.eventname
+        (event: EventType) => event.eventName !== selectedRow?.eventName
       );
 
       localStorage.setItem("eventDetails", JSON.stringify(updatedEvents));

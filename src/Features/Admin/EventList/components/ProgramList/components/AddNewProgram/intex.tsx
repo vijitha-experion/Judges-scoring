@@ -43,21 +43,26 @@ export default function AddNewProgram({
   );
 
   const warningType = showWarning(programValues, "programname");
-  console.log(event, "event");
+
+  if (event) {
+    localStorage.setItem("event", JSON.stringify(event.eventName));
+  } else {
+    console.error("event is null or undefined");
+  }
+
   function onCreateNewProgram() {
-    let existingProgram = JSON.parse(
+    const existingProgram = JSON.parse(
       localStorage.getItem("programDetails") || "[]"
     );
-    let programArray = Array.isArray(existingProgram) ? existingProgram : [];
-
-    const uniqueCode = `CODE-${
-      programValues?.programname
-    }-${event}-${programValues?.judges?.map((j: any) => j.label).join(",")}`;
-
-    let newProgram = {
+    const programArray = Array.isArray(existingProgram) ? existingProgram : [];
+    const unique = programValues?.judges?.map(
+      (j: any) =>
+        `CODE-${programValues?.programname}-${event?.eventName}-${j.label}`
+    );
+    const newProgram = {
       ...programValues,
-      eventName: event.eventname,
-      uniqueCode: uniqueCode,
+      eventName: event.eventName,
+      uniqueCode: unique,
     };
     programArray.push(newProgram);
     localStorage.setItem("programDetails", JSON.stringify(programArray));
@@ -90,19 +95,30 @@ export default function AddNewProgram({
     handleClose();
   }
 
-  let editProgram = JSON.parse(localStorage.getItem("editProgram") || "null");
-  let programsList = JSON.parse(localStorage.getItem("programDetails") || "[]");
+  const editProgram = JSON.parse(localStorage.getItem("editProgram") || "null");
+  const programsList = JSON.parse(
+    localStorage.getItem("programDetails") || "[]"
+  );
   const filteredEdit = programsList.find(
     (item: ProgramType) => item?.programname === editProgram?.programname
   );
 
   function onEditProgram() {
-    const updatedProgram = { ...filteredEdit, ...programValues };
+    const unique = programValues?.judges?.map(
+      (j: any) =>
+        `CODE-${programValues?.programname}-${event?.eventName}-${j.label}`
+    );
+    const updatedProgram = {
+      ...filteredEdit,
+      ...programValues,
+      uniqueCode: unique,
+    };
     const newEventArray = programsList.map((program: ProgramType) =>
       program?.programname === filteredEdit?.programname
         ? updatedProgram
         : program
     );
+    console.log(newEventArray, "newEventArray");
     localStorage.setItem("programDetails", JSON.stringify(newEventArray));
     localStorage.removeItem("editProgram");
     handleClose();
@@ -111,6 +127,7 @@ export default function AddNewProgram({
   const participantList = JSON.parse(
     localStorage.getItem("participantList") || "[]"
   );
+
   return (
     <>
       <Dialog

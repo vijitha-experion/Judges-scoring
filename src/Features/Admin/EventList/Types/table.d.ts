@@ -4,7 +4,7 @@ export type TableHead = {
 };
 
 export type EventType = {
-  eventname: string;
+  eventName: string;
   startDate: string;
   endDate: string;
   time: string;

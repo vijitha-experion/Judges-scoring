@@ -28,14 +28,14 @@ export const useAddNewEvent = create<any>()((set, get) => ({
     if (!touchedFields[field]) return false;
 
     if (field === "eventname") {
-      if (!event?.eventname?.trim()) return "empty";
+      if (!event?.eventName?.trim()) return "empty";
 
       let existingEvents: EventType[] = JSON.parse(
         localStorage.getItem("eventDetails") || "[]"
       );
       const isDuplicate = existingEvents.some(
         (e) =>
-          e.eventname?.toLowerCase() === event.eventname?.trim()?.toLowerCase()
+          e.eventName?.toLowerCase() === event.eventName?.trim()?.toLowerCase()
       );
       if (isDuplicate) return "duplicate";
     }

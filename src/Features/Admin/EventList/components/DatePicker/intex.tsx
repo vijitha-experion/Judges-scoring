@@ -6,7 +6,6 @@ const Datepickers = ({
   filteredEvent,
   event,
 }: any) => {
-  console.log(event, "event");
   const handleChange = (newValue: DateValueType | null) => {
     if (newValue) {
       setFieldValues("touchedFields", {

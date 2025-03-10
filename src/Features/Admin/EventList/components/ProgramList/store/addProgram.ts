@@ -26,6 +26,7 @@ export const useAddProgram = create<any>()((set, get) => ({
     if (!touchedFields[field]) return false;
 
     if (field === "programname") {
+      const event = JSON.parse(localStorage.getItem("event") || "");
       if (!program?.programname?.trim()) return "empty";
 
       let existingPrograms: ProgramType[] = JSON.parse(
@@ -34,7 +35,8 @@ export const useAddProgram = create<any>()((set, get) => ({
       const isDuplicate = existingPrograms.some(
         (e) =>
           e.programname?.toLowerCase() ===
-          program.programname?.trim()?.toLowerCase()
+            program.programname?.trim()?.toLowerCase() &&
+          e.eventName?.toLowerCase() === event?.trim()?.toLowerCase()
       );
       if (isDuplicate) return "duplicate";
     }

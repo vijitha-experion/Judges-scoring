@@ -38,7 +38,7 @@ export default function AddEvent({
     useCallback((state) => state.showWarning, [])
   );
 
-  const warningType = showWarning(eventValue, "eventname");
+  const warningType = showWarning(eventValue, "eventName");
 
   function onCreateNewEvent() {
     let existingEvents = JSON.parse(
@@ -53,11 +53,11 @@ export default function AddEvent({
 
   function checkDisable() {
     return (
-      (!eventValue?.eventname?.trim() && !filteredEvent?.eventname?.trim()) ||
+      (!eventValue?.eventName?.trim() && !filteredEvent?.eventName?.trim()) ||
       (!eventValue?.venue?.trim() && !filteredEvent?.venue?.trim()) ||
       (!eventValue?.startDate && !filteredEvent?.startDate) ||
       (!eventValue?.time && !filteredEvent?.time) ||
-      showWarning(eventValue, "eventname") ||
+      showWarning(eventValue, "eventName") ||
       showWarning(eventValue, "venue") ||
       showWarning(eventValue, "startDate") ||
       showWarning(eventValue, "time")
@@ -74,13 +74,13 @@ export default function AddEvent({
     localStorage.getItem("eventDetails") || "[]"
   );
   const filteredEvent = existingEvents.find(
-    (item: EventType) => item?.eventname === editEvent?.eventname
+    (item: EventType) => item?.eventName === editEvent?.eventName
   );
 
   function onEditEvent() {
     const updatedEvent = { ...filteredEvent, ...eventValue };
     const newEventArray = existingEvents.map((event: EventType) =>
-      event?.eventname === filteredEvent?.eventname ? updatedEvent : event
+      event?.eventName === filteredEvent?.eventName ? updatedEvent : event
     );
     localStorage.setItem("eventDetails", JSON.stringify(newEventArray));
     localStorage.removeItem("editEvent");
@@ -109,19 +109,19 @@ export default function AddEvent({
               <div className="flex flex-col gap-7 p-6">
                 <div className="flex justify-between">
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="eventname">Event Name</label>
+                    <label htmlFor="eventName">Event Name</label>
                     <input
                       type="text"
-                      id="eventname"
+                      id="eventName"
                       className={`w-64 border-2 h-8 border-gray-300 rounded pl-2 ${
                         filteredEvent ? "text-gray-400" : "text-gray-700"
                       }`}
                       value={
-                        eventValue?.eventname ?? filteredEvent?.eventname ?? ""
+                        eventValue?.eventName ?? filteredEvent?.eventName ?? ""
                       }
                       disabled={filteredEvent}
                       onChange={(e) => {
-                        setEventValue("eventname", e.target.value);
+                        setEventValue("eventName", e.target.value);
                       }}
                     />
                     {warningType === "empty" && (
