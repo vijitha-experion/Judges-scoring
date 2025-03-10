@@ -79,9 +79,6 @@ export function EventList(): ReactElement {
       <TableGrid
         columns={eventListHead}
         data={eventsArray}
-        currentPage={1}
-        totalPages={3}
-        onPageChange={(page) => console.log("Go to page:", page)}
         onRowClick={onRowClick}
         onDelete={handleDelete}
         onEdit={onEdit}

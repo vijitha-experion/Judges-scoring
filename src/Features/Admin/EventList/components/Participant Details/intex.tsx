@@ -8,11 +8,11 @@ import AddEvaluationPoint from "./components/AddEvaluationPoint/intex";
 
 import { ProgramType } from "../ProgramList/Types/intex";
 import { evaluationHead, participantDetailsHead } from "../../Utils/table";
-import { participantDetails } from "../../../../../data";
 import { useEvaluationPoint } from "./store/evaluationPoint";
+import { ParticipantScoreType } from "../../../../User/JudgesScoringPage/Types/participantScore";
 
 export function ParticipantsDetails(): ReactElement {
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const location = useLocation();
   const program = location.state?.program;
@@ -30,7 +30,7 @@ export function ParticipantsDetails(): ReactElement {
     setIsOpen(false);
   }
 
-  let existingProgram = JSON.parse(
+  const existingProgram = JSON.parse(
     localStorage.getItem("programDetails") || "[]"
   );
 
@@ -39,7 +39,29 @@ export function ParticipantsDetails(): ReactElement {
   );
   const evaluationPoints = filteredProgram?.evaluationPoints || [];
 
-  let score = JSON.parse(localStorage.getItem("scoreDetails") || "[]");
+  const score = JSON.parse(localStorage.getItem("scoreDetails") || "[]");
+
+  const groupedScores = Object.values(
+    score.reduce((acc: Record<string, ParticipantScoreType>, item: any) => {
+      if (!item || typeof item !== "object" || !item.participantName) {
+        return acc;
+      }
+      const key = `${item.eventName}-${item.programname}-${item.participantName}`;
+      if (acc[key]) {
+        acc[key].score += item.score;
+      } else {
+        acc[key] = { ...item };
+      }
+      return acc;
+    }, {})
+  );
+
+  groupedScores.sort((a: any, b: any) => b.score - a.score);
+
+  const finalScores = groupedScores.map((item: any, index) => ({
+    ...item,
+    position: index + 1,
+  }));
 
   return (
     <div className="pl-14 mr-14">
@@ -55,26 +77,30 @@ export function ParticipantsDetails(): ReactElement {
       <TableGrid
         columns={evaluationHead}
         data={evaluationPoints}
-        currentPage={1}
-        totalPages={3}
-        onPageChange={(page) => console.log("Go to page:", page)}
+        // currentPage={1}
+        // totalPages={3}
+        // onPageChange={(page) => console.log("Go to page:", page)}
         onRowClick={() => {}}
         showActions={false}
         onDelete={null}
         onEdit={null}
       />{" "}
-      <p className="font-semibold text-xl pt-5">Final Score Details</p>
-      <TableGrid
-        columns={participantDetailsHead}
-        data={score}
-        currentPage={1}
-        totalPages={3}
-        onPageChange={(page) => console.log("Go to page:", page)}
-        onRowClick={() => {}}
-        showActions={false}
-        onDelete={null}
-        onEdit={null}
-      />{" "}
+      {score?.length > 0 ? (
+        <div>
+          <p className="font-semibold text-xl pt-5">Final Score Details</p>
+          <TableGrid
+            columns={participantDetailsHead}
+            data={finalScores}
+            // currentPage={1}
+            // totalPages={3}
+            // onPageChange={(page) => console.log("Go to page:", page)}
+            onRowClick={() => {}}
+            showActions={false}
+            onDelete={null}
+            onEdit={null}
+          />
+        </div>
+      ) : null}
       {isOpen ? (
         <AddEvaluationPoint isOpen={isOpen} handleClose={handleClose} />
       ) : null}

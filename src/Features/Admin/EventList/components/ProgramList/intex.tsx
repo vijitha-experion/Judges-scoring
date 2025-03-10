@@ -94,9 +94,6 @@ export function ProgramList(): ReactElement {
       <TableGrid
         columns={programHead}
         data={formattedProgramsList}
-        currentPage={1}
-        totalPages={3}
-        onPageChange={(page) => console.log("Go to page:", page)}
         onRowClick={onRowClick}
         onDelete={handleDelete}
         onEdit={onEdit}

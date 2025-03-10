@@ -50,9 +50,6 @@ export function ParticipantsList(): ReactElement {
       <TableGrid
         columns={participantListHead}
         data={existingParticipant}
-        currentPage={1}
-        totalPages={3}
-        onPageChange={(page) => console.log("Go to page:", page)}
         onRowClick={() => {}}
         onDelete={onDelete}
         onEdit={onEdit}

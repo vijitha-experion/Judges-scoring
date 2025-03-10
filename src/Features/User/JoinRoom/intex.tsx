@@ -43,9 +43,10 @@ export function JoinRoom(): ReactElement {
     const room = existingProgram.find(
       (item: ProgramType) =>
         item?.eventName === joinValue?.roomName &&
-        item?.uniqueCode === joinValue?.password
+        item?.uniqueCode.map((unique: any) => unique === joinValue?.password)
     );
     localStorage.setItem("room", JSON.stringify(room));
+    localStorage.setItem("uniqueCode", JSON.stringify(joinValue?.password));
     if (room) {
       navigate("/judgesScoringPage");
       clearJoinValue();
