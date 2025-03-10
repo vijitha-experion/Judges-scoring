@@ -6,12 +6,13 @@ export function EvaluationPage(): ReactElement {
   const location = useLocation();
   const participant = location.state?.participant;
   const room = JSON.parse(localStorage.getItem("room") || "[]");
+  const uniqueCode = JSON.parse(localStorage.getItem("uniqueCode") || "");
 
   const navigate = useNavigate();
 
   const evaluationPoints = room?.evaluationPoints || [];
   const [scores, setScores] = useState<number[]>(() =>
-    Array(room?.evaluationPoints?.length || 0).fill(0)
+    Array(room?.evaluationPoints?.length || null).fill(null)
   );
 
   function handleScoreChange(index: number, value: string) {
@@ -41,6 +42,7 @@ export function EvaluationPage(): ReactElement {
         participantName: participant?.participantName,
         evaluationStatus: "Completed",
         score: totalScore,
+        uniqueCode: uniqueCode,
       },
     ];
     const updatedArray = [...existingScore, ...newData];

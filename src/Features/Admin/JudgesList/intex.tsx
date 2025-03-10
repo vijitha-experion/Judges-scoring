@@ -68,9 +68,6 @@ export function JudgesList(): ReactElement {
       <TableGrid
         columns={judgesListHead}
         data={judgesDetails}
-        currentPage={1}
-        totalPages={3}
-        onPageChange={(page) => console.log("Go to page:", page)}
         onRowClick={() => {}}
         onDelete={handleDelete}
         onEdit={onEdit}
