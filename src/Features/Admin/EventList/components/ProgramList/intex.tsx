@@ -26,7 +26,7 @@ export function ProgramList(): ReactElement {
 
   let programsList = JSON.parse(localStorage.getItem("programDetails") || "[]");
   const eventFilterProgram = programsList.filter(
-    (item: ProgramType) => item.eventName === event.eventname
+    (item: ProgramType) => item.eventName === event.eventName
   );
 
   let formattedProgramsList = eventFilterProgram.map((program: any) => ({
@@ -68,9 +68,12 @@ export function ProgramList(): ReactElement {
 
   function onConfirmDelete() {
     if (selectedRow) {
-      const updatedEvents = programsList.filter(
-        (event: ProgramType) => event.programname !== selectedRow?.programname
-      );
+      const updatedEvents = programsList.filter((events: ProgramType) => {
+        return !(
+          events.programname === selectedRow?.programname &&
+          events.eventName === selectedRow?.eventName
+        );
+      });
       localStorage.setItem("programDetails", JSON.stringify(updatedEvents));
       setIsDelete(false);
       setSelectedRow(null);

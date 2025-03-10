@@ -39,6 +39,8 @@ export function ParticipantsDetails(): ReactElement {
   );
   const evaluationPoints = filteredProgram?.evaluationPoints || [];
 
+  let score = JSON.parse(localStorage.getItem("scoreDetails") || "[]");
+
   return (
     <div className="pl-14 mr-14">
       <div className="flex justify-between items-center pt-10">
@@ -61,10 +63,10 @@ export function ParticipantsDetails(): ReactElement {
         onDelete={null}
         onEdit={null}
       />{" "}
-      <p className="font-semibold text-xl">Participant Details</p>
+      <p className="font-semibold text-xl pt-5">Final Score Details</p>
       <TableGrid
         columns={participantDetailsHead}
-        data={participantDetails}
+        data={score}
         currentPage={1}
         totalPages={3}
         onPageChange={(page) => console.log("Go to page:", page)}

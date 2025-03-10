@@ -1,5 +1,5 @@
 export const eventListHead = [
-  { key: "eventname", label: "Event Name" },
+  { key: "eventName", label: "Event Name" },
   { key: "startDate", label: "Start Date" },
   { key: "endDate", label: "End Date" },
   { key: "time", label: "Time" },
@@ -23,8 +23,7 @@ export const evaluationHead = [
 ];
 
 export const participantDetailsHead = [
-  { key: "participant", label: "Participant Name" },
-  { key: "details", label: "Details" },
-  { key: "marks", label: "Marks" },
+  { key: "participantName", label: "Participant Name" },
+  { key: "score", label: "Score" },
   { key: "position", label: "Postion" },
 ];
