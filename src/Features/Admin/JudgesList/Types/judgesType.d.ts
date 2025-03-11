@@ -4,3 +4,8 @@ export type JudgesType = {
   address: string;
   position: string;
 };
+
+export type JudgesListType = {
+  label: string;
+  value: number;
+};

@@ -7,7 +7,7 @@ import AddParticipant from "./components/AddParticipant/intex";
 import { DialogBox } from "../../../components/Dialog/intext";
 
 import { participantListHead } from "./Utils/participantTable";
-import { ParticipantType } from "./Types/participantType";
+import { ParticipantListType, ParticipantType } from "./Types/participantType";
 import { useParticipant } from "./Store/participantStore";
 
 export function ParticipantsList(): ReactElement {
@@ -63,12 +63,12 @@ export function ParticipantsList(): ReactElement {
         JSON.stringify(updatedParticipant)
       );
       const updatedParticipantList = participantList.filter(
-        (participantList: ParticipantType) =>
-          participantList.phone !== selectedRow?.phone
+        (participantList: ParticipantListType) =>
+          participantList.value !== selectedRow?.phone
       );
       localStorage.setItem(
         "participantList",
-        JSON.stringify(updatedParticipant)
+        JSON.stringify(updatedParticipantList)
       );
       setIsDelete(false);
       setSelectedRow(null);
