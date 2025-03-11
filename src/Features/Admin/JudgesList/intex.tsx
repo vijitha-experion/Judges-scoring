@@ -7,7 +7,7 @@ import AddJudge from "./components/AddJudge/intex";
 import { DialogBox } from "../../../components/Dialog/intext";
 
 import { judgesListHead } from "./Utils/tableHead";
-import { JudgesType } from "./Types/judgesType";
+import { JudgesListType, JudgesType } from "./Types/judgesType";
 import { useJudges } from "./Store/judgesStore";
 
 export function JudgesList(): ReactElement {
@@ -27,7 +27,10 @@ export function JudgesList(): ReactElement {
     clearJudgesValue();
     setIsOpen(false);
   }
-  let judgesDetails = JSON.parse(localStorage.getItem("judgesDetails") || "[]");
+  const judgesDetails = JSON.parse(
+    localStorage.getItem("judgesDetails") || "[]"
+  );
+  const judgesLists = JSON.parse(localStorage.getItem("judgesList") || "[]");
 
   function onEdit(row: JudgesType) {
     localStorage.setItem("editJudge", JSON.stringify(row));
@@ -46,10 +49,15 @@ export function JudgesList(): ReactElement {
 
   function onConfirmDelete() {
     if (selectedRow) {
-      const updatedEvents = judgesDetails.filter(
+      const updatedJudges = judgesDetails.filter(
         (judge: JudgesType) => judge.phone !== selectedRow?.phone
       );
-      localStorage.setItem("judgesDetails", JSON.stringify(updatedEvents));
+      localStorage.setItem("judgesDetails", JSON.stringify(updatedJudges));
+
+      const updatedJudgesList = judgesLists.filter(
+        (judgesList: JudgesListType) => judgesList.value !== selectedRow?.phone
+      );
+      localStorage.setItem("judgesList", JSON.stringify(updatedJudgesList));
       setIsDelete(false);
       setSelectedRow(null);
     }

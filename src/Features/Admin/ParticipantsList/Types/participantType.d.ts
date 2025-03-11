@@ -4,3 +4,8 @@ export type ParticipantType = {
   address: string;
   position: string;
 };
+
+export type ParticipantListType = {
+  label: string;
+  value: number;
+};
