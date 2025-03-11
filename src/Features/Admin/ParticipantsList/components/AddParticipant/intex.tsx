@@ -38,10 +38,10 @@ export default function AddParticipant({
   const warningType = showWarning(participantValue, "phone");
 
   function addParticipant() {
-    let existingParticipant = JSON.parse(
+    const existingParticipant = JSON.parse(
       localStorage.getItem("ParticipantDetails") || "[]"
     );
-    let participantArray = Array.isArray(existingParticipant)
+    const participantArray = Array.isArray(existingParticipant)
       ? existingParticipant
       : [];
     participantArray.push(participantValue);
