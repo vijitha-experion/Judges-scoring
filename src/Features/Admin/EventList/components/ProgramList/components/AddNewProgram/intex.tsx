@@ -42,7 +42,7 @@ export default function AddNewProgram({
     useCallback((state) => state.showWarning, [])
   );
 
-  const warningType = showWarning(programValues, "programname");
+  const warningType = showWarning(programValues, "programName");
 
   if (event) {
     localStorage.setItem("event", JSON.stringify(event.eventName));
@@ -57,7 +57,7 @@ export default function AddNewProgram({
     const programArray = Array.isArray(existingProgram) ? existingProgram : [];
     const unique = programValues?.judges?.map(
       (j: any) =>
-        `CODE-${programValues?.programname}-${event?.eventName}-${j.label}`
+        `CODE-${programValues?.programName}-${event?.eventName}-${j.label}`
     );
     const newProgram = {
       ...programValues,
@@ -73,15 +73,15 @@ export default function AddNewProgram({
 
   function checkDisable() {
     return (
-      (!programValues?.programname?.trim() &&
-        !filteredEdit?.programname?.trim()) ||
+      (!programValues?.programName?.trim() &&
+        !filteredEdit?.programName?.trim()) ||
       (!programValues?.description?.trim() &&
         !filteredEdit?.description?.trim()) ||
       (!programValues?.startDate && !filteredEdit?.startDate) ||
       (!programValues?.time && !filteredEdit?.time) ||
       (!programValues?.judges && !filteredEdit?.judges) ||
       (!programValues?.participant && !filteredEdit?.participant) ||
-      !!showWarning(programValues, "programname") ||
+      !!showWarning(programValues, "programName") ||
       !!showWarning(programValues, "description") ||
       !!showWarning(programValues, "startDate") ||
       !!showWarning(programValues, "time") ||
@@ -100,13 +100,13 @@ export default function AddNewProgram({
     localStorage.getItem("programDetails") || "[]"
   );
   const filteredEdit = programsList.find(
-    (item: ProgramType) => item?.programname === editProgram?.programname
+    (item: ProgramType) => item?.programName === editProgram?.programName
   );
 
   function onEditProgram() {
     const unique = programValues?.judges?.map(
       (j: any) =>
-        `CODE-${programValues?.programname}-${event?.eventName}-${j.label}`
+        `CODE-${programValues?.programName}-${event?.eventName}-${j.label}`
     );
     const updatedProgram = {
       ...filteredEdit,
@@ -114,7 +114,7 @@ export default function AddNewProgram({
       uniqueCode: unique,
     };
     const newEventArray = programsList.map((program: ProgramType) =>
-      program?.programname === filteredEdit?.programname
+      program?.programName === filteredEdit?.programName
         ? updatedProgram
         : program
     );
@@ -150,21 +150,21 @@ export default function AddNewProgram({
               <div className="flex flex-col gap-7 p-6">
                 <div className="flex justify-between">
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="programname">Program Name</label>
+                    <label htmlFor="programName">Program Name</label>
                     <input
                       type="text"
-                      id="programname"
+                      id="programName"
                       className={`w-64 border-2 h-8 border-gray-300 rounded pl-2 ${
                         filteredEdit ? "text-gray-400" : "text-gray-700"
                       }`}
                       value={
-                        programValues?.programname ??
-                        filteredEdit?.programname ??
+                        programValues?.programName ??
+                        filteredEdit?.programName ??
                         ""
                       }
                       disabled={filteredEdit}
                       onChange={(e) =>
-                        setProgramValues("programname", e.target.value)
+                        setProgramValues("programName", e.target.value)
                       }
                     />
                     {warningType === "empty" && (

@@ -32,7 +32,7 @@ export default function AddEvaluationPoint({
 
     if (Array.isArray(existingProgram)) {
       existingProgram = existingProgram.map((program: ProgramType) =>
-        program.programname === selectedProgram?.programname
+        program.programName === selectedProgram?.programName
           ? {
               ...program,
               evaluationPoints: [

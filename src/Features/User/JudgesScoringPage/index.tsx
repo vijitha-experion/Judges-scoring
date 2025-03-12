@@ -19,7 +19,7 @@ export function JudgesScoringPage(): ReactElement {
 
   const participantsList = room?.participant?.map((participant: any) => ({
     eventName: room?.eventName,
-    programname: room?.programname,
+    programName: room?.programName,
     uniqueCode: uniqueCode,
     participantName: participant.label,
     evaluationStatus: "-----",
@@ -31,7 +31,7 @@ export function JudgesScoringPage(): ReactElement {
       (score: ParticipantScoreType) =>
         score.participantName === participant.participantName &&
         score.eventName === participant.eventName &&
-        score.programname === participant.programname &&
+        score.programName === participant.programName &&
         score.uniqueCode === participant.uniqueCode
     );
     return existingParticipantScore || participant;
@@ -55,7 +55,7 @@ export function JudgesScoringPage(): ReactElement {
       <div className="flex justify-between items-center pt-10">
         <p className="font-semibold text-xl">Evaluation Points</p>
         <p>
-          {room?.eventName} ({room?.programname})
+          {room?.eventName} ({room?.programName})
         </p>
       </div>
       <TableGrid

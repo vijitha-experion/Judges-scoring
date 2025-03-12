@@ -74,7 +74,7 @@ export function TableGrid({
                         (() => {
                           const program = programsList.find(
                             (p: ProgramType) =>
-                              p.programname === row.programname
+                              p.programName === row.programName
                           );
                           if (!program || program.judges.length <= 1)
                             return null;
@@ -121,7 +121,7 @@ export function TableGrid({
                         (() => {
                           const program = programsList.find(
                             (p: ProgramType) =>
-                              p.programname === row.programname
+                              p.programName === row.programName
                           );
                           if (!program || program.participant.length <= 1)
                             return null;

@@ -1,6 +1,6 @@
 export type ParticipantScoreType = {
   eventName: string;
-  programname: string;
+  programName: string;
   participantName: string;
   evaluationStatus: string;
   score: number;
