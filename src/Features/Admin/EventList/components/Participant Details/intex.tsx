@@ -10,10 +10,11 @@ import { ProgramType } from "../ProgramList/Types/intex";
 import { evaluationHead, participantDetailsHead } from "../../Utils/table";
 import { useEvaluationPoint } from "./store/evaluationPoint";
 import { ParticipantScoreType } from "../../../../User/JudgesScoringPage/Types/participantScore";
+import { ScoreDetails } from "./components/ScoreDetails/intext";
 
 export function ParticipantsDetails(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isSideModal, setIsSideModal] = useState(false);
   const location = useLocation();
   const program = location.state?.program;
 
@@ -70,7 +71,15 @@ export function ParticipantsDetails(): ReactElement {
       item.eventName === filteredProgram.eventName &&
       item.programName === filteredProgram.programName
   );
-  
+
+  function handleRowClick(row: any) {
+    localStorage.setItem("singleScore", JSON.stringify(row));
+    setIsSideModal(true);
+  }
+
+  function scoreDetailsClose() {
+    setIsSideModal(false);
+  }
   return (
     <div className="pl-14 mr-14">
       <div className="flex justify-between items-center pt-10">
@@ -96,7 +105,7 @@ export function ParticipantsDetails(): ReactElement {
           <TableGrid
             columns={participantDetailsHead}
             data={finalScores}
-            onRowClick={() => {}}
+            onRowClick={handleRowClick}
             showActions={false}
             onDelete={null}
             onEdit={null}
@@ -105,6 +114,9 @@ export function ParticipantsDetails(): ReactElement {
       ) : null}
       {isOpen ? (
         <AddEvaluationPoint isOpen={isOpen} handleClose={handleClose} />
+      ) : null}
+      {isSideModal ? (
+        <ScoreDetails opened={isSideModal} handleClose={scoreDetailsClose} />
       ) : null}
     </div>
   );
