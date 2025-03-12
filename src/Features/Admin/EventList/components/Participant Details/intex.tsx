@@ -35,7 +35,9 @@ export function ParticipantsDetails(): ReactElement {
   );
 
   const filteredProgram = existingProgram.find(
-    (item: ProgramType) => item?.programName === program
+    (item: ProgramType) =>
+      item?.programName === program.programName &&
+      item?.eventName === program.eventName
   );
   const evaluationPoints = filteredProgram?.evaluationPoints || [];
 
@@ -63,6 +65,12 @@ export function ParticipantsDetails(): ReactElement {
     position: index + 1,
   }));
 
+  const finalScoreShow = score.some(
+    (item: ParticipantScoreType) =>
+      item.eventName === filteredProgram.eventName &&
+      item.programName === filteredProgram.programName
+  );
+  
   return (
     <div className="pl-14 mr-14">
       <div className="flex justify-between items-center pt-10">
@@ -82,8 +90,7 @@ export function ParticipantsDetails(): ReactElement {
         onDelete={null}
         onEdit={null}
       />{" "}
-      {score.eventName === filteredProgram.eventName &&
-      score.programname === filteredProgram.programName ? (
+      {finalScoreShow ? (
         <div>
           <p className="font-semibold text-xl pt-5">Final Score Details</p>
           <TableGrid
