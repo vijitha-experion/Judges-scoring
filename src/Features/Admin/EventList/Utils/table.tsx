@@ -8,7 +8,7 @@ export const eventListHead = [
 ];
 
 export const programHead = [
-  { key: "programname", label: "Program Name" },
+  { key: "programName", label: "Program Name" },
   { key: "description", label: "Description" },
   { key: "judges", label: "Judges Name" },
   { key: "startDate", label: "Start Date" },

@@ -25,17 +25,17 @@ export const useAddProgram = create<any>()((set, get) => ({
     const { touchedFields } = get();
     if (!touchedFields[field]) return false;
 
-    if (field === "programname") {
+    if (field === "programName") {
       const event = JSON.parse(localStorage.getItem("event") || "");
-      if (!program?.programname?.trim()) return "empty";
+      if (!program?.programName?.trim()) return "empty";
 
       let existingPrograms: ProgramType[] = JSON.parse(
         localStorage.getItem("programDetails") || "[]"
       );
       const isDuplicate = existingPrograms.some(
         (e) =>
-          e.programname?.toLowerCase() ===
-            program.programname?.trim()?.toLowerCase() &&
+          e.programName?.toLowerCase() ===
+            program.programName?.trim()?.toLowerCase() &&
           e.eventName?.toLowerCase() === event?.trim()?.toLowerCase()
       );
       if (isDuplicate) return "duplicate";

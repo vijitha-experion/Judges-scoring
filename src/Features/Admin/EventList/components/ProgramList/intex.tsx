@@ -48,7 +48,7 @@ export function ProgramList(): ReactElement {
 
   function onRowClick(row: ProgramType) {
     localStorage.setItem("selectedProgram", JSON.stringify(row));
-    navigate("/participantsDetails", { state: { program: row.programname } });
+    navigate("/participantsDetails", { state: { program: row.programName } });
   }
 
   function onEdit(row: ProgramType) {
@@ -70,7 +70,7 @@ export function ProgramList(): ReactElement {
     if (selectedRow) {
       const updatedEvents = programsList.filter((events: ProgramType) => {
         return !(
-          events.programname === selectedRow?.programname &&
+          events.programName === selectedRow?.programName &&
           events.eventName === selectedRow?.eventName
         );
       });

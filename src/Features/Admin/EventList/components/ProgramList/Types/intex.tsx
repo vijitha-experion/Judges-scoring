@@ -1,6 +1,6 @@
 export type ProgramType = {
   eventName: string;
-  programname: string;
+  programName: string;
   description: string;
   judges: [];
   startDate: string;

@@ -35,7 +35,7 @@ export function ParticipantsDetails(): ReactElement {
   );
 
   const filteredProgram = existingProgram.find(
-    (item: ProgramType) => item?.programname === program
+    (item: ProgramType) => item?.programName === program
   );
   const evaluationPoints = filteredProgram?.evaluationPoints || [];
 
@@ -46,7 +46,7 @@ export function ParticipantsDetails(): ReactElement {
       if (!item || typeof item !== "object" || !item.participantName) {
         return acc;
       }
-      const key = `${item.eventName}-${item.programname}-${item.participantName}`;
+      const key = `${item.eventName}-${item.programName}-${item.participantName}`;
       if (acc[key]) {
         acc[key].score += item.score;
       } else {
@@ -77,23 +77,18 @@ export function ParticipantsDetails(): ReactElement {
       <TableGrid
         columns={evaluationHead}
         data={evaluationPoints}
-        // currentPage={1}
-        // totalPages={3}
-        // onPageChange={(page) => console.log("Go to page:", page)}
         onRowClick={() => {}}
         showActions={false}
         onDelete={null}
         onEdit={null}
       />{" "}
-      {score?.length > 0 ? (
+      {score.eventName === filteredProgram.eventName &&
+      score.programname === filteredProgram.programName ? (
         <div>
           <p className="font-semibold text-xl pt-5">Final Score Details</p>
           <TableGrid
             columns={participantDetailsHead}
             data={finalScores}
-            // currentPage={1}
-            // totalPages={3}
-            // onPageChange={(page) => console.log("Go to page:", page)}
             onRowClick={() => {}}
             showActions={false}
             onDelete={null}
