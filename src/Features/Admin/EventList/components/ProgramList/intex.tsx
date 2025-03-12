@@ -48,7 +48,7 @@ export function ProgramList(): ReactElement {
 
   function onRowClick(row: ProgramType) {
     localStorage.setItem("selectedProgram", JSON.stringify(row));
-    navigate("/participantsDetails", { state: { program: row.programName } });
+    navigate("/participantsDetails", { state: { program: row } });
   }
 
   function onEdit(row: ProgramType) {
