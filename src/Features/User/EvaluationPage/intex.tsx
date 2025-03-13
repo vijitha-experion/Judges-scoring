@@ -15,7 +15,11 @@ export function EvaluationPage(): ReactElement {
     Array(room?.evaluationPoints?.length || null).fill(null)
   );
 
-  function handleScoreChange(index: number, value: string) {
+  function handleScoreChange(
+    index: number,
+    value: string,
+    evaluationpoint: string
+  ) {
     let num = Number(value);
     const newScores = [...scores];
     if (num > 10 || num < 0) {
@@ -23,6 +27,10 @@ export function EvaluationPage(): ReactElement {
     }
     newScores[index] = num;
     setScores(newScores);
+    const existingEvalute = JSON.parse(localStorage.getItem("evalute") || "[]");
+    const evalute = [{ mark: value, evaluationpoint: evaluationpoint }];
+    const updatedArray = [...existingEvalute, ...evalute];
+    localStorage.setItem("evalute", JSON.stringify(updatedArray));
   }
 
   const isSubmitDisabled = scores.some((score) => score === null);
@@ -32,7 +40,8 @@ export function EvaluationPage(): ReactElement {
       (sum, score) => (sum ?? 0) + (score ?? 0),
       0
     );
-    let existingScore = JSON.parse(
+    const existingEvalute = JSON.parse(localStorage.getItem("evalute") || "[]");
+    const existingScore = JSON.parse(
       localStorage.getItem("scoreDetails") || "[]"
     );
     const newData = [
@@ -43,8 +52,10 @@ export function EvaluationPage(): ReactElement {
         evaluationStatus: "Completed",
         score: totalScore,
         uniqueCode: uniqueCode,
+        existingEvalute: existingEvalute,
       },
     ];
+    localStorage.removeItem("evalute");
     const updatedArray = [...existingScore, ...newData];
     localStorage.setItem("scoreDetails", JSON.stringify(updatedArray));
     navigate("/judgesScoringPage");
@@ -71,7 +82,13 @@ export function EvaluationPage(): ReactElement {
                   min="0"
                   max="10"
                   value={scores[index] || ""}
-                  onChange={(e) => handleScoreChange(index, e.target.value)}
+                  onChange={(e) =>
+                    handleScoreChange(
+                      index,
+                      e.target.value,
+                      item.evaluationpoint
+                    )
+                  }
                   className="w-10 text-lg text-gray-700 bg-white border border-gray-400 rounded-lg px-2.5 py-2.5 shadow-sm outline-none
                   focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
                 />
