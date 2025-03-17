@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { produce } from "immer";
-import { ProgramType } from "../Types/intex";
+import { ProgramType } from "../Types/programType";
 
 export const useAddProgram = create<any>()((set, get) => ({
   programValues: {},

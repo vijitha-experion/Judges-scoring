@@ -6,11 +6,12 @@ import { Button } from "@headlessui/react";
 import { TableGrid } from "../../../../../components/Grid/intex";
 import AddEvaluationPoint from "./components/AddEvaluationPoint/intex";
 
-import { ProgramType } from "../ProgramList/Types/intex";
+import { ProgramType } from "../ProgramList/Types/programType";
 import { evaluationHead, participantDetailsHead } from "../../Utils/table";
 import { useEvaluationPoint } from "./store/evaluationPoint";
 import { ParticipantScoreType } from "../../../../User/JudgesScoringPage/Types/participantScore";
 import { ScoreDetails } from "./components/ScoreDetails/intext";
+import { finalScoreType } from "./components/ScoreDetails/Types/scoreType";
 
 export function ParticipantsDetails(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,27 +46,28 @@ export function ParticipantsDetails(): ReactElement {
   const score = JSON.parse(localStorage.getItem("scoreDetails") || "[]");
 
   const groupedScores = Object.values(
-    score.reduce((acc: Record<string, ParticipantScoreType>, item: any) => {
-      if (!item || typeof item !== "object" || !item.participantName) {
+    score.reduce(
+      (acc: Record<string, ParticipantScoreType>, item: finalScoreType) => {
+        if (!item || typeof item !== "object" || !item.participantName) {
+          return acc;
+        }
+        const key = `${item.eventName}-${item.programName}-${item.participantName}`;
+        if (acc[key]) {
+          acc[key].score += item.score;
+        } else {
+          acc[key] = { ...item };
+        }
         return acc;
-      }
-      const key = `${item.eventName}-${item.programName}-${item.participantName}`;
-      if (acc[key]) {
-        acc[key].score += item.score;
-      } else {
-        acc[key] = { ...item };
-      }
-      return acc;
-    }, {})
+      },
+      {}
+    )
   );
 
   groupedScores.sort((a: any, b: any) => b.score - a.score);
-
   const finalScores = groupedScores.map((item: any, index) => ({
     ...item,
     position: index + 1,
   }));
-
   const finalScoreShow = score.some(
     (item: ParticipantScoreType) =>
       item.eventName === filteredProgram.eventName &&
@@ -116,7 +118,10 @@ export function ParticipantsDetails(): ReactElement {
         <AddEvaluationPoint isOpen={isOpen} handleClose={handleClose} />
       ) : null}
       {isSideModal ? (
-        <ScoreDetails opened={isSideModal} handleClose={scoreDetailsClose} />
+        <ScoreDetails
+          opened={isSideModal}
+          handleClose={scoreDetailsClose}
+        />
       ) : null}
     </div>
   );

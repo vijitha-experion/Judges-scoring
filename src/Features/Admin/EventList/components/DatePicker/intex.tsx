@@ -15,13 +15,13 @@ const Datepickers = ({
       setFieldValues(
         "startDate",
         newValue.startDate
-          ? new Date(newValue.startDate).toISOString().split("T")[0]
+          ? new Date(newValue.startDate).toLocaleDateString("en-GB")
           : ""
       );
       setFieldValues(
         "endDate",
         newValue.endDate
-          ? new Date(newValue.endDate).toISOString().split("T")[0]
+          ? new Date(newValue.endDate).toLocaleDateString("en-GB")
           : ""
       );
     }

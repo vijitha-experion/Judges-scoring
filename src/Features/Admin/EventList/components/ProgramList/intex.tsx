@@ -8,7 +8,7 @@ import AddNewProgram from "./components/AddNewProgram/intex";
 
 import { programHead } from "../../Utils/table";
 import { useAddProgram } from "./store/addProgram";
-import { ProgramType } from "./Types/intex";
+import { ProgramType } from "./Types/programType";
 import { DialogBox } from "../../../../../components/Dialog/intext";
 
 export function ProgramList(): ReactElement {

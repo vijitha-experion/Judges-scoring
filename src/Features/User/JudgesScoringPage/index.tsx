@@ -37,7 +37,6 @@ export function JudgesScoringPage(): ReactElement {
     return existingParticipantScore || participant;
   });
 
-  console.log(newArray, "newArray");
   function onRowClick(row: ParticipantScoreType) {
     if (row.evaluationStatus === "Completed") {
       toast("A participant can be evaluated only once.", {

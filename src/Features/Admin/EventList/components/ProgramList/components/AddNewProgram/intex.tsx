@@ -16,7 +16,7 @@ import {
   programWarning,
   timeWarning,
 } from "../../Utils/warnings";
-import { ProgramType } from "../../Types/intex";
+import { ProgramType } from "../../Types/programType";
 
 type AddNewProgramType = {
   isOpen: boolean;
