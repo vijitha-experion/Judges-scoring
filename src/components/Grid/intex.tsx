@@ -4,7 +4,7 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import { PencilIcon } from "@heroicons/react/24/outline";
 import { Tooltip } from "react-tooltip";
 
-import { ProgramType } from "../../Features/Admin/EventList/components/ProgramList/Types/intex";
+import { ProgramType } from "../../Features/Admin/EventList/components/ProgramList/Types/programType";
 
 export type TableColumn = {
   key: string;

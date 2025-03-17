@@ -1,7 +1,7 @@
 import { ReactElement, useCallback, useState } from "react";
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useEvaluationPoint } from "../../store/evaluationPoint";
-import { ProgramType } from "../../../ProgramList/Types/intex";
+import { ProgramType } from "../../../ProgramList/Types/programType";
 
 type AddEventType = {
   isOpen: boolean;

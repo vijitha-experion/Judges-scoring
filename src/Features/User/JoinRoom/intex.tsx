@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import scoreapp from "../../../assets/images/scoreapp.png";
 import { useJoinRoom } from "./Store/joinRoomStore";
 import { password, roomWarning } from "./Utils/warning";
-import { ProgramType } from "../../Admin/EventList/components/ProgramList/Types/intex";
+import { ProgramType } from "../../Admin/EventList/components/ProgramList/Types/programType";
 
 export function JoinRoom(): ReactElement {
   const [isVisible, setIsVisible] = useState(false);

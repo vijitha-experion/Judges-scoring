@@ -1,6 +1,9 @@
 import { ReactElement, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+
+import { JudgesListType } from "../../Admin/JudgesList/Types/judgesType";
 
 export function EvaluationPage(): ReactElement {
   const location = useLocation();
@@ -40,6 +43,14 @@ export function EvaluationPage(): ReactElement {
       (sum, score) => (sum ?? 0) + (score ?? 0),
       0
     );
+    const judgesList = JSON.parse(localStorage.getItem("judgesList") || "[]");
+    const judgeName =
+      judgesList.find((judge: JudgesListType) =>
+        uniqueCode.includes(judge.label)
+      )?.label || "Judge not found";
+
+    console.log(judgeName, "judgeName");
+    // console.log(uniqueCode, "judgeName");
     const existingEvalute = JSON.parse(localStorage.getItem("evalute") || "[]");
     const existingScore = JSON.parse(
       localStorage.getItem("scoreDetails") || "[]"
@@ -53,6 +64,7 @@ export function EvaluationPage(): ReactElement {
         score: totalScore,
         uniqueCode: uniqueCode,
         existingEvalute: existingEvalute,
+        judgeName: judgeName,
       },
     ];
     localStorage.removeItem("evalute");
